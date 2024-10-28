@@ -9,7 +9,7 @@ First, ssh into the VM. (you'll only be able to if you're added). You can do it 
 ### SSH from terminal
 
 ```bash
-ssh 35.208.175.145
+ssh my_username@35.208.175.145
 ```
 
 ### Add remote from command line

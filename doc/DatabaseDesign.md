@@ -1,3 +1,5 @@
+# DDL Commands
+
 ```sql
 CREATE TABLE User (
     UserID VARCHAR(255) PRIMARY KEY, 
