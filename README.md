@@ -2,7 +2,9 @@
 
 ## Accessing the VM and Database
 
-First, ssh into the VM. (you'll only be able to if you're added). You can do it though command line or vs code
+First, ssh into the VM. (you'll only be able to if you're added). You can do it though command line or vs code.
+
+> When you're in, please work in the `/home/shared` directory ty
 
 ### SSH from terminal
 
