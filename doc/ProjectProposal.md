@@ -63,9 +63,9 @@ Afterwards, each team member will work on their own game and incorporate it into
 3) Backend of Main Platform(how db works, managing db, sets up physical implementation of DB including server config, db connections, etc) \- Ethan Chang  
 4) Dealing With Login and Profile page and Storing that Data (both backend and frontend) \- Julia Shen
 
-## Black Jack Tasks:
+## Texas Hold-em Tasks:
 
-5) Connecting FrontEnd to Backend of Black Jack(setting up API/server-side of backend, designing db schema, which is communicated to other backend person)  
+5) Connecting FrontEnd to Backend of TH (setting up API/server-side of backend, designing db schema, which is communicated to other backend person)  
 6) Backend of Main Platform(how db works, managing db, sets up physical implementation of DB including server config, db connections, etc)  
-7) Frontend of BlackJack (designing frontend of game)  
+7) Frontend of TH (designing frontend of game)  
 8) Designing and Implementing Animations of UI, etc

@@ -1,8 +1,8 @@
 # Stage 3 Revisions
 General
-- added stage_revisions.md file
+- added this revision file
 - renamed doc files and switched to md format
-- created old dir to hold outdated doc files
+- created [old](old) dir to hold outdated doc files
 
 Stage 1 Revision
 - created revised project proposal [file](ProjectProposal.md)

@@ -83,7 +83,6 @@ User(
     (UIC, RoomID) [PK]
 )
 ```
-
 ```sql
 Room(
     RoomID: VARCHAR(255) [PK], 
@@ -91,7 +90,6 @@ Room(
     ChatLog: VARCHAR(255)
 )
 ```
-
 ```sql
 GameHistory(  
     HandID: VARCHAR(255),  
@@ -125,7 +123,6 @@ GameHistory(
     (HandID, UID) [PK]  
 )
 ```
-
 ```sql
 Transaction(
     TransactionID: VARCHAR(255) [PK], 
