@@ -34,12 +34,12 @@ CREATE TABLE Inventory(
 CREATE TABLE Transaction (
     TransactionID VARCHAR(255) PRIMARY KEY,
     SenderID VARCHAR(255), 
-    SenderID VARCHAR(255), 
+    ReceiverID VARCHAR(255), 
     Amount INT NOT NULL,
     DateTime DATETIME NOT NULL,
-    Description VARCHAR(255)
+    Description VARCHAR(255),
     FOREIGN KEY (SenderID) REFERENCES User(UserID),
-    FOREIGN KEY (ReceiverID) REFERENCES User(UserID),
+    FOREIGN KEY (ReceiverID) REFERENCES User(UserID)
 );
 
 
