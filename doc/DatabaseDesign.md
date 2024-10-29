@@ -1,33 +1,52 @@
 # DDL Commands
 
 ```sql
-CREATE TABLE User (
-    UserID VARCHAR(255) PRIMARY KEY, 
-    Pass VARCHAR(255) NOT NULL, 
-    Balance INT, 
-    CurrentSkin VARCHAR(255), 
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
+CREATE TABLE Skin (
+    SkinID VARCHAR(255) PRIMARY KEY,
+    Image VARCHAR(255) NOT NULL,
+    Description VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Room (
-    RoomID VARCHAR(255) PRIMARY KEY, 
+    RoomID VARCHAR(255) PRIMARY KEY,
     Log VARCHAR(255),
     ChatLog VARCHAR(255)
 );
 
+CREATE TABLE User (
+    UserID VARCHAR(255) PRIMARY KEY,
+    Pass VARCHAR(255) NOT NULL,
+    Balance INT,
+    CurrentSkin VARCHAR(255),
+    RoomID VARCHAR(255),
+    FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
+);
+
+CREATE TABLE Inventory(
+    UserID VARCHAR(255),
+    SkinID VARCHAR(255),
+    FOREIGN KEY (UserID) References User(UserID),
+    FOREIGN KEY (SkinID) References Skin(SkinID),
+    PRIMARY KEY (UserID, SkinID)
+);
+
+
 CREATE TABLE Transaction (
-    TransactionID VARCHAR(255) PRIMARY KEY, 
-    FOREIGN KEY (SenderID) REFERENCES User(UserID), 
-    ReceiverID REFERENCES User(UserID),
-    Amount INT, 
-    DateTime DATETIME NOT NULL, 
+    TransactionID VARCHAR(255) PRIMARY KEY,
+    SenderID VARCHAR(255), 
+    SenderID VARCHAR(255), 
+    Amount INT NOT NULL,
+    DateTime DATETIME NOT NULL,
     Description VARCHAR(255)
-); 
+    FOREIGN KEY (SenderID) REFERENCES User(UserID),
+    FOREIGN KEY (ReceiverID) REFERENCES User(UserID),
+);
+
 
 CREATE TABLE GameHistory(
     HandID VARCHAR(255),
     UserID VARCHAR(255),
-    DateTime DATETIME NOT NULL, 
+    DateTime DATETIME NOT NULL,
     buyin REAL,
     blinds_level INT,
     init_stack INT,
@@ -37,7 +56,7 @@ CREATE TABLE GameHistory(
     action_turn VARCHAR(255) NOT NULL,
     action_river VARCHAR(255) NOT NULL,
     all_in BOOLEAN,
-    cards VARCHAR(255) NOT NULL, 
+    cards VARCHAR(255) NOT NULL,
     board_flop VARCHAR(255),
     board_turn VARCHAR(255),
     board_river VARCHAR(255),
@@ -55,19 +74,4 @@ CREATE TABLE GameHistory(
     balance INT,
     PRIMARY KEY (HandID, UserID)
 );
-
-CREATE TABLE Skin (
-    SkinID VARCHAR(255) PRIMARY KEY, 
-    Image VARCHAR(255) NOT NULL, 
-    Description VARCHAR(255) NOT NULL
-); 
-
-Inventory(
-    UserID VARCHAR(255),
-    SkinID VARCHAR(255),
-    FOREIGN KEY (UserID) References User(UserID), 
-    FOREIGN KEY (SkinID) References Skin(SkinID),
-    PRIMARY KEY (UserID, SkinID)
-);
-
 ```
