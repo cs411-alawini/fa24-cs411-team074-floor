@@ -30,5 +30,17 @@ mysql -h 34.41.165.201 -u root -p
 ```
 - it will ask you for a password (ask me, i dont want it on the internet)
 
+## Shutting down VM and database
+### VM
+```bash
+sudo shutdown -h now
+```
+### database
+- go into gcloud :(
+
+
+
+
+
 
 hf :)

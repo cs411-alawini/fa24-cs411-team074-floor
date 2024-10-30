@@ -47,7 +47,7 @@ CREATE TABLE GameHistory(
     HandID VARCHAR(255),
     UserID VARCHAR(255),
     DateTime DATETIME NOT NULL,
-    buyin REAL,
+    buyin VARCHAR(255),
     blinds_level INT,
     init_stack INT,
     position INT,
@@ -65,13 +65,13 @@ CREATE TABLE GameHistory(
     pot_turn INT,
     pot_river INT,
     ante INT,
-    blinds INT,
     bet_pre INT,
     bet_flop INT,
     bet_turn INT,
     bet_river INT,
     result VARCHAR(255) NOT NULL,
     balance INT,
-    PRIMARY KEY (HandID, UserID)
+    PRIMARY KEY (HandID, UserID),
+    FOREIGN KEY (UserID) REFERENCES User(UserID)
 );
 ```
