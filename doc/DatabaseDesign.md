@@ -13,19 +13,20 @@ CREATE TABLE Room (
     ChatLog VARCHAR(255)
 );
 
-CREATE TABLE User (
+CREATE TABLE Account (
     UserID VARCHAR(255) PRIMARY KEY,
     Pass VARCHAR(255) NOT NULL,
-    Balance INT,
     CurrentSkin VARCHAR(255),
     RoomID VARCHAR(255),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
+    Balance INT,
+    FOREIGN KEY (RoomID) REFERENCES Room(RoomID),
+    FOREIGN KEY (CurrentSkin) REFERENCES Skin(SkinID)
 );
 
 CREATE TABLE Inventory(
     UserID VARCHAR(255),
     SkinID VARCHAR(255),
-    FOREIGN KEY (UserID) References User(UserID),
+    FOREIGN KEY (UserID) References Account(UserID) ON DELETE CASCADE,
     FOREIGN KEY (SkinID) References Skin(SkinID),
     PRIMARY KEY (UserID, SkinID)
 );
@@ -38,8 +39,8 @@ CREATE TABLE Transaction (
     Amount INT NOT NULL,
     DateTime DATETIME NOT NULL,
     Description VARCHAR(255),
-    FOREIGN KEY (SenderID) REFERENCES User(UserID),
-    FOREIGN KEY (ReceiverID) REFERENCES User(UserID)
+    FOREIGN KEY (SenderID) REFERENCES Account(UserID) ON DELETE SET NULL,
+    FOREIGN KEY (ReceiverID) REFERENCES Account(UserID) ON DELETE SET NULL
 );
 
 
@@ -51,12 +52,12 @@ CREATE TABLE GameHistory(
     blinds_level INT,
     init_stack INT,
     position INT,
-    action_pre VARCHAR(255) NOT NULL,
-    action_flop VARCHAR(255) NOT NULL,
-    action_turn VARCHAR(255) NOT NULL,
-    action_river VARCHAR(255) NOT NULL,
+    action_pre VARCHAR(255),
+    action_flop VARCHAR(255),
+    action_turn VARCHAR(255),
+    action_river VARCHAR(255),
     all_in BOOLEAN,
-    cards VARCHAR(255) NOT NULL,
+    cards VARCHAR(255),
     board_flop VARCHAR(255),
     board_turn VARCHAR(255),
     board_river VARCHAR(255),
@@ -69,9 +70,9 @@ CREATE TABLE GameHistory(
     bet_flop INT,
     bet_turn INT,
     bet_river INT,
-    result VARCHAR(255) NOT NULL,
+    result VARCHAR(255),
     balance INT,
     PRIMARY KEY (HandID, UserID),
-    FOREIGN KEY (UserID) REFERENCES User(UserID)
+    FOREIGN KEY (UserID) REFERENCES Account(UserID)
 );
 ```

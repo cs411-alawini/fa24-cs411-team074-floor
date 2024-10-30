@@ -1,4 +1,4 @@
-0,../data/tmp/log0.txt,../data/tmp/chatlog0.txt
-1,../data/tmp/log1.txt,../data/tmp/chatlog1.txt
-2,../data/tmp/log2.txt,../data/tmp/chatlog2.txt
-3,../data/tmp/log3.txt,../data/tmp/chatlog3.txt
+r0,../data/tmp/log0.txt,../data/tmp/chatlog0.txt,0
+r1,../data/tmp/log1.txt,../data/tmp/chatlog1.txt,0
+r2,../data/tmp/log2.txt,../data/tmp/chatlog2.txt,0
+r3,../data/tmp/log3.txt,../data/tmp/chatlog3.txt,0
