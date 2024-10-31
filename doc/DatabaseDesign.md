@@ -1,3 +1,7 @@
+# Command Line Info
+
+![alt_text](/doc/imgs/connection.png)
+
 # DDL Commands
 
 ```sql
@@ -77,7 +81,12 @@ CREATE TABLE GameHistory(
 );
 ```
 
-Advanced SQL Queries
+# Total Row Counts
+
+![alt_text](/doc/imgs/rowCount.png)
+
+
+# Advanced SQL Queries
 
 1.
 
@@ -99,7 +108,7 @@ GROUP BY action, UserID
 ORDER BY UserID, WinRate DESC
 LIMIT 15;
 ```
-![alt_text](/fa24-cs411-team074-floor/doc/imgs/query1.png)
+![alt_text](/doc/imgs/query1.png)
 
 2.
 
@@ -109,6 +118,7 @@ FROM (SELECT * FROM Account WHERE RoomID = 0) AS UserInRooms
 JOIN Skin ON SkinID = CurrentSkin
 LIMIT 15;
 ```
+![alt_text](/doc/imgs/query2.png)
 
 3.
 
@@ -134,6 +144,8 @@ ORDER BY g.Date
 LIMIT 15;
 ```
 
+![alt_text](/doc/imgs/query3.png)
+
 4.
 
 ```sql
@@ -143,6 +155,8 @@ WHERE SenderID = 'TEXAS_HOLDEM' OR ReceiverID = 'TEXAS_HOLDEM'
 GROUP BY TransactionDate, TransactionID, SenderID, ReceiverID, Amount
 LIMIT 15; 
 ```
+
+![alt_text](/doc/imgs/query4.png)
 
 5.
 
@@ -159,3 +173,4 @@ WHERE g.UserID LIKE "00021ae5")
 GROUP BY UserID
 LIMIT 15;
 ```
+![alt_text](/doc/imgs/query5.png)
