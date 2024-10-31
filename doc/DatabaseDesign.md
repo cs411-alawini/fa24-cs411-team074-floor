@@ -99,6 +99,7 @@ GROUP BY action, UserID
 ORDER BY UserID, WinRate DESC
 LIMIT 15;
 ```
+![alt_text](/fa24-cs411-team074-floor/doc/imgs/query1.png)
 
 2.
 
