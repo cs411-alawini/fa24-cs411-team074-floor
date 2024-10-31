@@ -108,7 +108,7 @@ ORDER BY UserID, WinRate DESC
 LIMIT 15;
 ```
 ### Example Execution on MySQL DB
-![alt_text](/doc/imgs/query1.png)
+![alt_text](imgs/query1.png)
 
 ## 2. Currently Playing With
 This query returns the skins of all the players in a specific room. 
@@ -121,7 +121,7 @@ JOIN Skin ON SkinID = CurrentSkin
 LIMIT 15;
 ```
 ### Example Execution on MySQL DB
-![alt_text](/doc/imgs/query2.png)
+![alt_text](imgs/query2.png)
 
 ## 3. Activity Tracker
 This query retrieves the daily activity of a user over multiple days, specifically counting the total amount of transactions that occur in game and outside of the games every day. 
@@ -150,7 +150,7 @@ LIMIT 15;
 ```
 
 ### Example Execution on MySQL DB
-![alt_text](/doc/imgs/query3.png)
+![alt_text](imgs/query3.png)
 
 ## 4. Game Cash Flow
 This query retrieves all the transactions for a specific game, in this case being the Texas Hold’Em game.
@@ -165,7 +165,7 @@ LIMIT 15;
 ```
 
 ### Example Execution on MySQL DB
-![alt_text](/doc/imgs/query4.png)
+![alt_text](imgs/query4.png)
 
 ## 5. Round statistics
 This query retrieves the game histories of all players involved in the game that a specific player was in. The results will be grouped by players to show the individual stats of the players involved in the game. 
@@ -184,7 +184,7 @@ GROUP BY UserID
 LIMIT 15;
 ```
 ### Example Execution on MySQL DB
-![alt_text](/doc/imgs/query5.png)
+![alt_text](imgs/query5.png)
 
 *Note: the output is less than 15 rows. We will be using this query to get stats on every person the arbitrarily selected user* `00021ae5` *played against. When the user* `00021ae5` *plays against more distinct people, this set will increase. We will call this query when we have a specific UserID we want to look at.*
 
