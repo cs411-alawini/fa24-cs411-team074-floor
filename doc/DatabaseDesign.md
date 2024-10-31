@@ -174,3 +174,5 @@ GROUP BY UserID
 LIMIT 15;
 ```
 ![alt_text](/doc/imgs/query5.png)
+
+The output is less than 15 rows. We will be using this query to get stats on every person the arbitrarily selected user "00021ae5" played against. When the user "00021ae5" plays against more distinct people, this set will increase. We will call this query when we have a specific UserID we want to look at.
