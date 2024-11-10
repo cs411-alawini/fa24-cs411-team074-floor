@@ -38,9 +38,22 @@ sudo shutdown -h now
 ### database
 - go into gcloud :(
 
+### Setting Up Angular-Flask Base Project
+git clone <repository-url>
+cd into <gambit-gallery folder>
+navigate to backend folder of project
+python3 -m venv venv
+source venv/bin/activate
+pip install Flask flask-cors
+python app.py
 
+navigate to frontend folder of project
+npm install
+ng serve
 
-
+### To run project:
+python app.py (from backend folder)
+ng serve (from frontend folder)
 
 
 hf :)
