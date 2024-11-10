@@ -39,8 +39,8 @@ sudo shutdown -h now
 - go into gcloud :(
 
 ### Setting Up Angular-Flask Base Project  
-git clone the repo url
-cd into gambit gallery folder 
+git clone the repo url  
+cd into gambit gallery folder   
 navigate to backend folder of project  
 python3 -m venv venv  
 source venv/bin/activate  
