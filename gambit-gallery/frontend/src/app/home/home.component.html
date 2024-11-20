@@ -3,7 +3,8 @@
     <header class="central-logo" (click)="toggleMessage()">
       <h1>Gambit Gallery</h1>
     </header>
-  
+
+    <button class="show-data" (click)="displayDataButton()">Show Data</button>
     <!-- Display Message -->
     <div *ngIf="message" class="message-display">
         {{ message }}

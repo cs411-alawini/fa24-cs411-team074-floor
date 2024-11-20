@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service'; // Adjust the path as necessary
-import { RouterModule } from '@angular/router'; // Import RouterModule
+import { RouterModule, Router} from '@angular/router'; // Import RouterModule
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,7 @@ export class HomeComponent {
   message = '';
   fetched = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   toggleMessage() {
     if (this.fetched) {
@@ -26,6 +26,11 @@ export class HomeComponent {
       });
     }
     this.fetched = !this.fetched;
+  }
+
+  displayDataButton(): void{
+    console.log('Display Button was clicked!');
+    this.router.navigate(['/data-page']);
   }
 
   //TO DO: POKER GAME PAGE REDIRECT

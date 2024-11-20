@@ -117,3 +117,17 @@ body, .page-container {
   opacity: 1;
   transform: scale(1.1);
 }
+
+.show-data {
+    background-color: #1a1a1a;
+    color: #ffcc00;
+    align-self: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-family: 'Times New Roman', serif;
+}
+.show-data:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+

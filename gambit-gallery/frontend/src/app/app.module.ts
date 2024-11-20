@@ -1,10 +1,20 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
 @NgModule({
   declarations: [/* your components */],
   imports: [
     HttpClientModule, // Add this here
-    // other imports...
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   bootstrap: [/* your main component */]
 })

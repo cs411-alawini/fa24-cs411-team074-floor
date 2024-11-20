@@ -13,5 +13,9 @@ export class ApiService {
   getHello(): Observable<any> {
     return this.http.get(`${this.baseUrl}/hello`);
   }
+  // Fetch data from the Flask API
+  getData(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/data`);
+  }
 }
 
