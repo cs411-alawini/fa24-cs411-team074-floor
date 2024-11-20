@@ -2,6 +2,9 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import mysql.connector
 
+app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
+
 connection = mysql.connector.connect(
     host="34.41.165.201",
     user="root",
@@ -79,6 +82,20 @@ def query(q):
     return jsonify({"query": cursor.fetchall()})
 
 
+@app.route('/api/get_rooms', methods=['GET'])
+def get_rooms():
+    cursor.execute('select RoomID from Room')
+    return jsonify({"result": cursor.fetchall()})
+
+@app.route('/api/create_room', methods=['GET'])
+def create_room():
+    cursor.execute('insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId')
+    return jsonify({"result": cursor.fetchall()})
+
+@app.route('/api/delete_room', methods=['GET'])
+def delete_room():
+    cursor.execute('delete from Room where RoomId = "test"')
+    return jsonify({"result": cursor.fetchall()})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
