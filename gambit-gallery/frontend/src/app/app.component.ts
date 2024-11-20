@@ -1,22 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from './services/api.service';
+import { RouterModule } from '@angular/router'; // Include routing
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HttpClientModule],
-  template: `<h1>{{ message }}</h1>`,
+  imports: [HttpClientModule,RouterModule],
+  templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   message = '';
+  title = 'Gambit Gallery'
 
   constructor(private apiService: ApiService) {}
-
-  ngOnInit() {
-    this.apiService.getHello().subscribe((data) => {
-      this.message = data.message;
-    });
-  }
 }
 
