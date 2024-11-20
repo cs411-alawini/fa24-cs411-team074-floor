@@ -6,12 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:5000/api';
+  private baseUrl = 'http://127.0.0.1:5000/api';
 
   constructor(private http: HttpClient) {}
 
   getHello(): Observable<any> {
     return this.http.get(`${this.baseUrl}/hello`);
+  }
+  // Fetch data from the Flask API
+  getData(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/data`);
   }
 }
 

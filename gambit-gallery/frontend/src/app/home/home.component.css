@@ -1,0 +1,133 @@
+/* Global Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Overall Page Styling */
+body, .page-container {
+  background-color: #2c2c2c; /* Dark grey background */
+  color: #f0f0f0; /* Light text */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Central Logo */
+.central-logo {
+  text-align: center;
+  margin-top: 5vh;
+  margin-bottom: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.central-logo h1 {
+  font-size: calc(1.5rem + 1vw);
+  color: #ffffff;
+  font-family: 'Times New Roman', serif;
+  margin: 0;
+}
+
+.central-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Line Divider */
+.line-divider {
+  width: 90%;
+  height: 2px;
+  background-color: #555;
+  margin: 5vh 0;
+}
+
+/* Content Section */
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card Container */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 35vh;
+  padding: 0 10px;
+}
+
+.card {
+  background-color: #3a3a3a;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 250px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+}
+
+.card h3 {
+  margin: 15px 0;
+  font-size: calc(1rem + 0.5vw);
+  color: #ffcc00;
+}
+
+/* Login Icon */
+.login-icon {
+  position: absolute;
+  top: 3vh;
+  right: 2vw;
+  cursor: pointer;
+}
+
+.login-icon img {
+  width: 2vw;
+  height: auto;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.login-icon img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.show-data {
+    background-color: #1a1a1a;
+    color: #ffcc00;
+    align-self: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-family: 'Times New Roman', serif;
+}
+.show-data:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
