@@ -1,0 +1,46 @@
+<div class="login-container">
+  <!-- Back Button -->
+  <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
+    <img src="assets/images/back_button.png" alt="Back Icon" />
+  </button>
+
+  <!-- Login Form -->
+  <div class="login-form">
+    <h2>Login</h2>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <!-- Username Input -->
+      <div class="form-group">
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
+          required
+          placeholder="Username"
+        />
+      </div>
+
+      <!-- Password Input -->
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          placeholder="Password"
+        />
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit" class="login-submit" [disabled]="!loginForm.form.valid">
+        Login
+      </button>
+    </form>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>

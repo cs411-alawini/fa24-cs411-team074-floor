@@ -1,0 +1,33 @@
+<div class="page-container">
+    <!-- Central Logo -->
+    <header class="central-logo" (click)="toggleMessage()">
+      <h1>Gambit Gallery</h1>
+    </header>
+  
+    <!-- Display Message -->
+    <div *ngIf="message" class="message-display">
+        {{ message }}
+    </div>
+    
+    <!-- Line Divider -->
+    <div class="line-divider"></div>
+  
+    <!-- Content Section -->
+    <div class="content">
+      <!-- Blackjack Card -->
+      <div class="card-container">
+        <div class="card">
+          <img src="assets/images/poker_logo.jpg" alt="Poker" class="card-image" />
+          <h3>Poker</h3>
+        </div>
+      </div>
+    </div>
+  
+    <nav>
+      <a class="login-icon" [routerLink]="['/login']" routerLinkActive="active">
+        <img src="assets/images/person_icon.png" alt="Login Icon" />
+      </a>
+      <!-- Add other navigation links here -->
+    </nav>
+  </div>
+  
