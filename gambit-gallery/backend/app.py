@@ -84,17 +84,27 @@ def query(q):
 
 @app.route('/api/get_rooms', methods=['GET'])
 def get_rooms():
-    cursor.execute('select RoomID from Room')
+    cursor.execute('select * from Room')
     return jsonify({"result": cursor.fetchall()})
 
 @app.route('/api/create_room', methods=['GET'])
 def create_room():
-    cursor.execute('insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId')
+    cursor.execute('insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId;')
     return jsonify({"result": cursor.fetchall()})
 
 @app.route('/api/delete_room', methods=['GET'])
 def delete_room():
-    cursor.execute('delete from Room where RoomId = "test"')
+    cursor.execute('delete from Room where RoomId = "test";')
+    return jsonify({"result": cursor.fetchall()})
+
+@app.route('/api/get_log', methods=['GET'])
+def get_log():
+    cursor.execute('select ChatLog from Room where RoomId = "test";')
+    return jsonify({"result": cursor.fetchall()})
+
+@app.route('/api/update_log/<room>/<text>', methods=['GET'])
+def update_log(room, text):
+    cursor.execute(f'update Room set ChatLog = "{text}" where RoomId = "{room}";')
     return jsonify({"result": cursor.fetchall()})
 
 if __name__ == '__main__':
