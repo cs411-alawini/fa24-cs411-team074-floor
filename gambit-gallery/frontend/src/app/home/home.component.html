@@ -1,13 +1,22 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap" rel="stylesheet">
+
 <div class="page-container">
     <!-- Central Logo -->
     <header class="central-logo" (click)="toggleMessage()">
       <h1>Gambit Gallery</h1>
     </header>
-
+    
     <button class="show-data" (click)="displayDataButton()">Show Data</button>
     <!-- Display Message -->
     <div *ngIf="message" class="message-display">
         {{ message }}
+    </div>
+
+    
+    <div class="header-container">
+        <h2 class="header">Games</h2>
     </div>
     
     <!-- Line Divider -->
