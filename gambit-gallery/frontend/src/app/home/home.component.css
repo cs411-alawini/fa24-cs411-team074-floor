@@ -137,6 +137,45 @@ h2 {
   transform: scale(1.1);
 }
 
+.shop-icon {
+    position: absolute;
+    top: 3.3vh;
+    right: 8vw;
+    cursor: pointer;
+}
+
+.shop-icon img {
+    width: 2.75vw;
+    height: 2vw;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+  
+.shop-icon img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.coin-icon {
+    position: absolute;
+    top: 3.5vh;
+    right: 5vw;
+    cursor: pointer;
+}
+
+.coin-icon img {
+    width: 2vw;
+    height: auto;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+  
+.coin-icon img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+  
+
 .show-data {
     background-color: #1a1a1a;
     color: #F28B82;
