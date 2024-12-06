@@ -92,6 +92,13 @@ def create_room():
     cursor.execute('insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId;')
     return jsonify({"result": cursor.fetchall()})
 
+@app.route('/api/join_room', methods=['GET'])
+def join_room():
+    status = ""
+    
+    cursor.execute('insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId;')
+    return jsonify({"result": cursor.fetchall()})
+
 @app.route('/api/delete_room', methods=['GET'])
 def delete_room():
     cursor.execute('delete from Room where RoomId = "test";')
