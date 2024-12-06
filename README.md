@@ -4,14 +4,31 @@
 
 1. ```sudo apt update```
 2. ```sudo apt install mysql-server```
-3. ```sudo nano /etc/mysql/my.cnf```
-4. in that file, add ```secure-file-priv="[dir path of data folder]"```
+3. ```sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf```
+4. in that file, add ```secure-file-priv=""```
 5. ```systemctl status mysql```
 6. ```sudo mysql```
 7. ```CREATE DATABASE gambit_gallery```
 8. ```USE gambit_gallery```
 9. paste the DDL Commands from DatabaseDesign.md
-10. 
+
+Start:
+
+`sudo /etc/init.d/mysql start`
+
+Stop:
+
+`sudo /etc/init.d/mysql stop`
+
+Restart / reload configs:
+
+`sudo /etc/init.d/mysql restart`
+
+Check run status:
+
+`sudo /etc/init.d/mysql status`
+
+
 
 ## Accessing the VM and Database
 
