@@ -1,5 +1,18 @@
 # team074-floor
 
+## Running it locally
+
+1. ```sudo apt update```
+2. ```sudo apt install mysql-server```
+3. ```sudo nano /etc/mysql/my.cnf```
+4. in that file, add ```secure-file-priv="[dir path of data folder]"```
+5. ```systemctl status mysql```
+6. ```sudo mysql```
+7. ```CREATE DATABASE gambit_gallery```
+8. ```USE gambit_gallery```
+9. paste the DDL Commands from DatabaseDesign.md
+10. 
+
 ## Accessing the VM and Database
 
 First, ssh into the VM. (you'll only be able to if you're added). You can do it though command line or vs code.
