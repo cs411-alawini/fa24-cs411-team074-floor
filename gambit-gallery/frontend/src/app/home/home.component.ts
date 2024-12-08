@@ -28,10 +28,6 @@ export class HomeComponent {
     this.fetched = !this.fetched;
   }
 
-  displayDataButton(): void{
-    console.log('Display Button was clicked!');
-    this.router.navigate(['/data-page']);
-  }
 
   //TO DO: POKER GAME PAGE REDIRECT
 
