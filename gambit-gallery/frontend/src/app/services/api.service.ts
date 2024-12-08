@@ -21,6 +21,10 @@ export class ApiService {
   getTransaction(user: String): Observable<any> {
     return this.http.get(`${this.apiUrl}/get_transactions/${user}`);
   }
+
+  getSkins(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get_skins/`)
+  }
   
 }
 
