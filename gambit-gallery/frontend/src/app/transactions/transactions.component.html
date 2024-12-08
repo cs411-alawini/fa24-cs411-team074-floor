@@ -16,6 +16,12 @@
     <div class="table-container">
       <!-- Material Table -->
       <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
+        </ng-container>
+
         <!-- From Column -->
         <ng-container matColumnDef="from">
           <mat-header-cell *matHeaderCellDef> From </mat-header-cell>
@@ -32,6 +38,12 @@
         <ng-container matColumnDef="amount">
           <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
         </ng-container>
   
         <!-- Header and Row Definitions -->

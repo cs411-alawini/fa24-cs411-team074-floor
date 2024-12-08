@@ -7,28 +7,39 @@ import { MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [CommonModule, MatTableModule,MatPaginatorModule,MatSortModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class TransactionsComponent {
-    constructor(private router: Router, private location: Location) {}
-    table_columns : string[] = ["from","to","amount"]
-    data =[
-        {from: "Bob", to: "John", amount:"5"},
-        {from: "Bob", to: "Leah", amount:"5"},
-        {from: "Bob", to:"Texas Holdem", amount:"15"}
-    ]
-    dataSource = new MatTableDataSource(this.data);
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private location: Location
+  ) {}
 
-    // Method to navigate back
-    goBack(): void {
-        this.location.back();
-      }
+  table_columns: string[] = ['date', 'from', 'to', 'amount', 'description'];
+  dataSource = new MatTableDataSource([]);
+
+  ngOnInit() {
+    this.fetchData();
+  }
+
+  fetchData(): void {
+    this.apiService.getTransaction('TEXAS_HOLDEM').subscribe((data) => {
+      this.dataSource.data = data;
+    });
+    // console.log(this.dataSource.data);
+  }
+
+  // Method to navigate back
+  goBack(): void {
+    this.location.back();
+  }
 }
-  
