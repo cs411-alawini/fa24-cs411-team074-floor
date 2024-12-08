@@ -25,26 +25,17 @@ export class TransactionsComponent {
   ) {}
 
   table_columns: string[] = ['date', 'from', 'to', 'amount', 'description'];
-  data = [
-    // { from: 'Bob', to: 'John', amount: '5', date: '5/5' },
-    // { from: 'Bob', to: 'Leah', amount: '5' },
-    // { from: 'Bob', to: 'Texas Holdem', amount: '15' },
-  ];
+  dataSource = new MatTableDataSource([]);
 
-  // this.apiService.getHello().subscribe((data) => {
-  //   this.message = data.message;
-  // });
-
-  
-  dataSource = new MatTableDataSource(this.data);
+  ngOnInit() {
+    this.fetchData();
+  }
 
   fetchData(): void {
     this.apiService.getTransaction('TEXAS_HOLDEM').subscribe((data) => {
-      this.data = data;
+      this.dataSource.data = data;
     });
-    // this.apiService.getTransaction('TEXAS_HOLDEM').;
-
-    // return [{from: "bruh"}];
+    // console.log(this.dataSource.data);
   }
 
   // Method to navigate back

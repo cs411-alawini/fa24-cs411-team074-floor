@@ -131,7 +131,7 @@ def update_log(room, text):
 @app.route("/api/get_transactions/<user>", methods=["GET"])
 def get_transactions(user):
     cursor.execute(
-        f'select * from Transaction where SenderID = "{user}" or ReceiverID = "{user}"'
+        f'select * from Transaction where SenderID = "{user}" or ReceiverID = "{user}" limit 15'
     )
     data = []
     for d in cursor.fetchall():
