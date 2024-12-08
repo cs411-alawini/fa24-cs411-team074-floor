@@ -3,13 +3,14 @@ from flask_cors import CORS
 import mysql.connector
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
+CORS(app)
 
 connection = mysql.connector.connect(
     host="34.41.165.201",
     user="root",
     password="GambitGallery!",
-    database="gambit_gallery"
+    database="gambit_gallery",
+    connection_timeout = 10
 )
 cursor = connection.cursor()
 
@@ -75,12 +76,15 @@ GROUP BY UserID''',
 def hello():
     return jsonify({"message": "Hello from Flask!"})
 
-
 @app.route('/api/query/<q>', methods=['GET'])
 def query(q):
     cursor.execute(queries[q])
     return jsonify({"query": cursor.fetchall()})
 
+@app.route('/api/query/get_skins')
+def get_skins():
+    cursor.execute('select * from Skin;')
+    return jsonify({"result": cursor.fetchall()})
 
 @app.route('/api/get_rooms', methods=['GET'])
 def get_rooms():

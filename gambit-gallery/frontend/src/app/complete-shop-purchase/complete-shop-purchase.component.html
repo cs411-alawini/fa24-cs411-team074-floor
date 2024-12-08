@@ -1,0 +1,25 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap" rel="stylesheet">
+<div class="purchase-page purchase-container">
+  <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
+    <img src="assets/images/back_button.png" alt="Back Icon" />
+  </button>
+
+  <header class="central-header">
+    <h1>Complete Purchase</h1>
+  </header>
+
+  <div class="cart-items-container">
+    <div *ngFor="let item of cart; let i = index" class="cart-item">
+      <div class="cart-item-details">
+        <span>{{ i + 1 }}. {{ item.Description }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="purchase-summary">
+    <h3>Total Cost: {{ cart.length }}</h3>
+    <button class="complete-purchase-button" (click)="completePurchase()">Purchase</button>
+  </div>
+</div>
