@@ -11,7 +11,13 @@
 7. ```CREATE DATABASE gambit_gallery```
 8. ```USE gambit_gallery```
 9. paste the DDL Commands from DatabaseDesign.md
-
+10. load data using the following command:
+```sql
+load data infile '/path/to/cs411/fa24-cs411-team074-floor/data fixed_MyTable.csv' into table MyTable fields terminated by ',' lines terminated by '\r\n'
+(Vars, @vNullVar, MoreVars)
+set NullVar = nullif(@vNullVar, "NULL")
+;
+```
 Start:
 
 `sudo /etc/init.d/mysql start`

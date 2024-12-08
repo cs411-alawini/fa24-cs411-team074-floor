@@ -51,7 +51,7 @@ CREATE TABLE GameHistory(
     buyin VARCHAR(255),
     blinds_level INT,
     init_stack INT,
-    position INT,
+    position VARCHAR(3),
     action_pre VARCHAR(255),
     action_flop VARCHAR(255),
     action_turn VARCHAR(255),
