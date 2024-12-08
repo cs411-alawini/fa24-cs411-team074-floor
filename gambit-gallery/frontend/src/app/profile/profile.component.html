@@ -1,7 +1,7 @@
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-<div *ngIf="userProfile" class="profile">
-  <h2>Welcome, {{ username }}</h2>
-  
-  <!-- You can add more profile details here -->
+<div *ngIf="username; else noUsername">
+  <h2>Welcome, {{ username }}!</h2>
 </div>
+
+<ng-template #noUsername>
+  <h2>Welcome, Guest!</h2>
+</ng-template>

@@ -5,18 +5,30 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private usernameSource = new BehaviorSubject<string>('');
-  currentUsername$ = this.usernameSource.asObservable();
+  private userStateSubject = new BehaviorSubject<string>('');
+  currentUser$ = this.userStateSubject.asObservable();
 
   constructor() {}
 
-  // Set username
+  // Method to set the username
   setUsername(username: string): void {
-    this.usernameSource.next(username);
+    this.userStateSubject.next(username);
+    localStorage.setItem('username', username); // Persist data in localStorage
   }
 
-  // Get username
+  // Method to get the username
   getUsername(): string {
-    return this.usernameSource.getValue();
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      this.userStateSubject.next(storedUsername);
+      return storedUsername;
+    }
+    return '';
+  }
+
+  // Method to clear the state
+  clearState(): void {
+    this.userStateSubject.next('');
+    localStorage.removeItem('username');
   }
 }

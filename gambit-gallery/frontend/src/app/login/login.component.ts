@@ -60,7 +60,8 @@ export class LoginComponent {
         if (response.success) {
           this.userService.setUsername(this.username);
           console.log('Login successful');
-          this.router.navigate(['/']); // Navigate to home
+          console.log('username set as' + this.userService.getUsername())
+          // this.router.navigate(['/profile']); 
         } else {
           console.log('Login failed');
           this.errorMessage = 'Invalid username or password.';

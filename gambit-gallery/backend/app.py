@@ -139,7 +139,7 @@ def login():
     # if connection is None:
     #     return jsonify({"error": "Failed to connect to the database."}), 500
     
-    cursor = connection.cursor(dictionary=True)
+    # cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
     user = cursor.fetchone()
 

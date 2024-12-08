@@ -2,28 +2,31 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../services/user.service'; // Import the UserService
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './profile.component.html', // Template for the component
+  styleUrls: ['./profile.component.scss'], // Optional stylesheet for the component
 })
 export class ProfileComponent implements OnInit {
   username: string = '';
+
   userProfile: any = null;
   errorMessage: string = '';
   loading: boolean = true;
 
-  private http = inject(HttpClient); // Inject HttpClient
-  private router = inject(Router); // Inject Router
   private userService = inject(UserService); // Inject UserService
 
   ngOnInit() {
-    this.userService.currentUsername$.subscribe((username) => {
-      this.username = username;
-      // this.checkUserValidity(username);
-    });
+    this.username = this.userService.getUsername();
+    console.log('Welcome, ' + this.username);
+    this.loading = false;
   }
+}
 
   // checkUserValidity(username: string) {
   //   // Call the API to check if the username is valid
@@ -49,4 +52,4 @@ export class ProfileComponent implements OnInit {
   //     }
   //   );
   // }
-}
+// }
