@@ -18,6 +18,26 @@ load data infile '/path/to/cs411/fa24-cs411-team074-floor/data fixed_MyTable.csv
 set NullVar = nullif(@vNullVar, "NULL")
 ;
 ```
+11. Connect to db
+Set password
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+```
+
+Connect
+```sh
+mysql -u "root" -p "root"
+```
+
+```python
+connection = connection.MySQLConnection(
+    user="root",
+    password="root",
+    database="gambit_gallery"
+)
+```
+
+
 Start:
 
 `sudo /etc/init.d/mysql start`
