@@ -1,0 +1,62 @@
+<div class="create-account-container">
+    <!-- Back Button -->
+    <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
+      <img src="assets/images/back_button.png" alt="Back Icon" />
+    </button>
+  
+    <!-- Create Account Form -->
+    <!-- <ng-template #accountForm> -->
+        <div class="account-form">
+        <h2>Create Account</h2>
+    
+        <form (ngSubmit)="onSubmit()" #accountForm="ngForm">
+            <!-- Username Input -->
+            <div class="form-group">
+            <input
+                type="text"
+                id="username"
+                name="username"
+                [(ngModel)]="username"
+                required
+                placeholder="Enter Username"
+            />
+            </div>
+    
+            <!-- Password Input -->
+            <div class="form-group">
+            <input
+                type="password"
+                id="password"
+                name="password"
+                [(ngModel)]="password"
+                required
+                placeholder="Enter Password"
+            />
+            </div>
+    
+            <!-- Submit Button -->
+            <button
+            type="submit"
+            class="account-submit"
+            [disabled]="!accountForm.form.valid"
+            >
+            Create Account
+            </button>
+        </form>
+    
+        <!-- Success/Error Message -->
+        <div *ngIf="successMessage" class="success-message">
+            {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
+    
+        <!-- Link to Login Page -->
+        <div class="login-link">
+            <a routerLink="/login">Already have an account? Log in here</a>
+        </div>
+        </div>
+    <!-- </ng-template> -->
+  </div>
+  

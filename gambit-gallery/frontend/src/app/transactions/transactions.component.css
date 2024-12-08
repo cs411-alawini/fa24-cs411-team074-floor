@@ -1,0 +1,106 @@
+.transactions-page.transactions-container {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Full width */
+    height: 100vh;
+    background-color: #1a1a1a; /* Dark black background */
+    display: flex;
+    flex-direction: column; /* Stack header and table */
+    align-items: center;
+    justify-content: flex-start; /* Header stays at the top */
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Central Logo */
+  .transactions-page.transactions-container .central-logo {
+    margin-top: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .transactions-page.transactions-container .central-logo h1 {
+    font-size: calc(2.5rem + 1.5vw);
+    color: #f5f5f1;
+    font-family: 'Bahiana', serif;
+    margin: 0;
+  }
+  
+  .transactions-page.transactions-container .central-logo:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Table Container */
+  .table-container {
+    width: 80%; 
+    margin: 30px auto; 
+  }
+  
+  /* Styling the Table */
+  .transactions-page.transactions-container ::ng-deep .mat-elevation-z8 {
+    display: block !important; /* Allow for width control */
+    margin-top: 20px; /* Space from the header */
+    border: 5px solid #FFD700;
+    border-radius: 10px;
+    width: 100% !important; /* Make table take the width of its container */
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* Column Width Constraints */
+  .transactions-page.transactions-container ::ng-deep .mat-cell,
+  .transactions-page.transactions-container ::ng-deep .mat-header-cell {
+    max-width: 150px; 
+    font-weight: bold; 
+    font-size: 3.2rem !important;
+    overflow: hidden; 
+    text-overflow: ellipsis; /* Add ellipsis for long text */
+    white-space: nowrap; /* Prevent wrapping */
+  }
+  
+  /* Table Header Row Styling */
+  .transactions-page.transactions-container ::ng-deep .mat-header-row {
+    background-color: #3f51b5; /* Material Blue */
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  /* Zebra Striping for Table Rows */
+  .transactions-page.transactions-container ::ng-deep .mat-row:nth-child(even) {
+    background-color: #f9f9f9; 
+  }
+  
+  .transactions-page.transactions-container ::ng-deep .mat-row:nth-child(odd) {
+    background-color: #ffffff; 
+  }
+  
+  .transactions-page.transactions-container ::ng-deep .mat-row:hover {
+    background-color: #eeeeee; 
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Back Button Styling */
+  .transactions-page.transactions-container .back-button {
+    position: fixed; /* Top-left corner */
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .transactions-page.transactions-container .back-button img {
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .transactions-page.transactions-container .back-button img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  

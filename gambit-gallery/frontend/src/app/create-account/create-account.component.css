@@ -1,0 +1,169 @@
+/* General Container Styling */
+body,
+.create-account-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;    
+    background-color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Back Button Styling */
+.back-button {
+    position: fixed; /* Top-left corner */
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .back-button img {
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .back-button img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  /* Login Form Styling */
+  .account-form {
+    background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+    padding: 30px 25px; /* Reduced padding for a compact design */
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 350px; /* Slightly reduced width */
+  }
+  
+  /* Form Title */
+  .account-form h2 {
+    font-size: 20px; /* Reduced font size */
+    margin-bottom: 20px; /* Adjusted margin for spacing */
+    margin-top: 10px; /* Moved closer to the top */
+    color: #333;
+  }
+  
+  /* Form Styling */
+  .account-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    position: relative;
+    margin-bottom: 15px; /* Reduced spacing between inputs */
+    width: 100%;
+    text-align: center;
+  }
+  
+  .form-group input {
+    width: 85%; /* Reduced width for compactness */
+    max-width: 300px; /* Reduced maximum width */
+    margin: 0 auto;
+    padding: 12px; /* Reduced padding */
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Rounded edges */
+    font-size: 14px; /* Smaller font size */
+    color: #333;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-group input::placeholder {
+    color: #aaa;
+    transition: opacity 0.3s ease;
+  }
+
+  .form-group input:focus {
+    border-color: #7f7fd5; /* iPhone blue for focus */
+    box-shadow: 0 0 6px rgba(127, 127, 213, 0.5); /* Subtle blue glow */
+  }
+  
+  /* Submit Button */
+  .account-submit {
+    width: 85%; /* Reduced width for compactness */
+    max-width: 200px; /* Reduced maximum width */
+    margin: 0 auto;
+    padding: 7px; /* Reduced padding */
+    font-size: 16px; /* Reduced font size */
+    color: white;
+    background-color: #497fc5;
+    border: none;
+    border-radius: 20px; /* Rounded button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .login-submit:hover {
+    background-color: #6f6fc5; /* Slightly darker hover */
+    transform: scale(1.05); /* Subtle hover zoom */
+  }
+  
+  .account-submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Success and Error Messages */
+  .success-message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #28a745; /* Red for error text */
+    text-align: center;
+  }
+  
+  .error-message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ff4d4d; /* Red for error text */
+    text-align: center;
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Link to Login Page */
+  .login-link {
+    margin-top: 15px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .login-link a {
+    color: #497fc5; /* Blue color matching button */
+    font-size: 14px; /* Small font size for subtlety */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .login-link a:hover {
+    color: #6f6fc5; /* Slightly darker blue on hover */
+    text-decoration: underline; /* Add underline on hover for emphasis */
+    transform: scale(1.05); /* Subtle zoom effect */
+  }
+
+  .login-link a:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(127, 127, 213, 0.6); /* Blue glow for focus */
+  }
+  

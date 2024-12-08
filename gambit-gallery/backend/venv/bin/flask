@@ -1,4 +1,4 @@
-#!/Users/kaushalamancherla/fa24-cs411-team074-floor/gambit-gallery/backend/venv/bin/python3
+#!/Users/juliashen/Desktop/cs411/fa24-cs411-team074-floor/gambit-gallery/backend/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

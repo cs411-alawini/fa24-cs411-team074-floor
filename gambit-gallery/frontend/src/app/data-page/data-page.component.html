@@ -3,8 +3,14 @@
     <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
       <img src="assets/images/back_button.png" alt="Back Icon" />
     </button>
+    <div>
+      <h2 style="color: white;">Rooms</h2>
+      <p style="color: white;">{{ rooms }}</p>
+    </div>
+    <button (click)="onButton1Click()">Create Room</button>
+    <button (click)="onButton2Click()">Delete Room</button>
   </div>
-  
+
   <!-- Angular Material Table -->
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <!-- Define Columns -->

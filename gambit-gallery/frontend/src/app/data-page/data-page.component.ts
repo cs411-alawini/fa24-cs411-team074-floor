@@ -7,6 +7,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
+
+import { TestService } from './test.service';
+
 @Component({
   selector: 'app-data-page',
   standalone: true,
@@ -17,11 +20,13 @@ import { MatTableDataSource } from '@angular/material/table';
 export class DataPageComponent implements OnInit {
   displayedColumns: string[] = ['column1', 'column2'];
   dataSource = new MatTableDataSource<any>([]);
+  rooms: any = null;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private location: Location) {}
+  constructor(private location: Location, private buttonService: TestService) {}
 
   ngOnInit() {
     const mockData = [
@@ -37,8 +42,41 @@ export class DataPageComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-}
 
+  getRooms(response: any): void {
+    this.rooms = response.result
+    // for (let r in response.result) {
+    //   this.rooms += r.toString()
+    // }
+    console.log(this.rooms)
+  }
+
+  onButton1Click(): void {
+    this.buttonService.button1Action().subscribe(
+      (response) => console.log(response.message),
+      (error) => console.error('Error:', error)
+    );
+
+    this.buttonService.getRooms().subscribe(
+      (response) => this.getRooms(response),
+      (error) => console.error('Error:', error)
+    );
+  
+  }
+
+  onButton2Click(): void {
+    this.buttonService.button2Action().subscribe(
+      (response) => console.log(response.message),
+      (error) => console.error('Error:', error)
+    );
+
+    this.buttonService.getRooms().subscribe(
+      (response) => this.getRooms(response),
+      (error) => console.error('Error:', error)
+    );
+  }
+
+}
 
 
 

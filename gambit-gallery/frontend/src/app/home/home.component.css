@@ -3,9 +3,16 @@
   box-sizing: border-box;
 }
 
+.bahiana-regular {
+    font-family: "Bahiana", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  
 /* Overall Page Styling */
 body, .page-container {
-  background-color: #2c2c2c; /* Dark grey background */
+  background-color: #1a1a1a; /* Black background */
   color: #f0f0f0; /* Light text */
   margin: 0;
   padding: 0;
@@ -33,9 +40,9 @@ body, .page-container {
 }
 
 .central-logo h1 {
-  font-size: calc(1.5rem + 1vw);
+  font-size: calc(2.5rem + 1.5vw);
   color: #ffffff;
-  font-family: 'Times New Roman', serif;
+  font-family: 'Bahiana', serif;
   margin: 0;
 }
 
@@ -43,12 +50,22 @@ body, .page-container {
   transform: scale(1.05);
 }
 
+h2 {
+    color: #ffffff;
+    font-size: calc(2rem + 1.2vw);
+    text-align: center;
+    font-family: 'Bahiana', serif;
+    margin-right: 1200px;
+    margin-top: 89px; 
+}
+
+
 /* Line Divider */
 .line-divider {
   width: 90%;
   height: 2px;
-  background-color: #555;
-  margin: 5vh 0;
+  background-color: #ffffff;
+  margin: 1px auto;
 }
 
 /* Content Section */
@@ -66,7 +83,8 @@ body, .page-container {
   gap: 20px;
   justify-content: center;
   align-items: center;
-  margin-top: 35vh;
+  margin-top: 3vh;
+  margin-right: 130vh;
   padding: 0 10px;
 }
 
@@ -94,8 +112,9 @@ body, .page-container {
 
 .card h3 {
   margin: 15px 0;
-  font-size: calc(1rem + 0.5vw);
-  color: #ffcc00;
+  font-size: calc(2rem + 0.5vw);
+  font-family: 'Bahiana', serif;
+  color: #F28B82;
 }
 
 /* Login Icon */
@@ -118,13 +137,52 @@ body, .page-container {
   transform: scale(1.1);
 }
 
+.shop-icon {
+    position: absolute;
+    top: 3.3vh;
+    right: 8vw;
+    cursor: pointer;
+}
+
+.shop-icon img {
+    width: 2.75vw;
+    height: 2vw;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+  
+.shop-icon img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.coin-icon {
+    position: absolute;
+    top: 3.5vh;
+    right: 5vw;
+    cursor: pointer;
+}
+
+.coin-icon img {
+    width: 2vw;
+    height: auto;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+  
+.coin-icon img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+  
+
 .show-data {
     background-color: #1a1a1a;
-    color: #ffcc00;
+    color: #F28B82;
     align-self: center;
     margin-top: 20px;
     font-size: 1rem;
-    font-family: 'Times New Roman', serif;
+    font-family: 'Bahiana', serif;
 }
 .show-data:hover {
     opacity: 1;

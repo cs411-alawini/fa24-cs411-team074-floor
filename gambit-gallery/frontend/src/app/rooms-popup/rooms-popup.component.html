@@ -1,0 +1,23 @@
+<div class="popup">
+
+    <div *ngIf="readyToLoad" class="loading-circle">
+        <mat-spinner></mat-spinner>
+        <p>Waiting for players...</p>
+      </div>
+
+    <div class="popup-content">
+      <span class="close-btn" (click)="navigateBack()">&times;</span>
+      <h2>Before You Begin, Join or Create a Room</h2>
+      <div class="button-group">
+        <button (click)="onCreateRoom()">Create Room</button>
+        <button (click)="onJoinRoom()">Join Room</button>
+      </div>
+      <div *ngIf="createRoomPressed" class="input-group">
+        <input type="text" #createInput (keydown.enter)="roomCreated(createInput.value)" placeholder="Enter Room Code:" />
+      </div>
+      <div *ngIf="joinRoomPressed" class="input-group">
+        <input type="text" #joinInput (keydown.enter)="roomJoined(joinInput.value)" placeholder="Join Room:" />
+      </div>
+    </div>
+  </div>
+  

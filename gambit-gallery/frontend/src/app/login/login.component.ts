@@ -1,48 +1,91 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router'; // Import RouterModule for routing directives
-import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
-import { Location } from '@angular/common'; // Import Location service
+import { Component, inject } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthGoogleService } from './auth-google.service';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from '../services/user.service'; // Import the UserService
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,RouterModule, FormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router, private location: Location) {}
+  private authService = inject(AuthGoogleService);
+  private router = inject(Router);
+  private location = inject(Location);
+  private http = inject(HttpClient);
+  private userService = inject(UserService);  // Inject the UserService
 
-  //CHANGE THIS TO CALL USER AUTH API -> pass this.username,this.password
+
+  getProfile() {
+    return this.authService.getProfile();
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  signInWithGoogle() {
+    this.authService.login();
+  }
+
   onSubmit() {
-    //set default username/password to temp values
-    if (this.username === 'temp' && this.password === 'temp') {
-      console.log('Login successful');
-      this.router.navigate(['/']); //on successful login, route back to home page
-    } else {
-      console.log('Login failed');
-      this.errorMessage = 'Invalid username or password.';
+    const url = 'http://127.0.0.1:5000/api/login';
+    const payload = {
+      username: this.username,
+      password: this.password,
+    };
 
-      // Set a timer to automatically clear the error message after 3 seconds
-      setTimeout(() => {
-        this.errorMessage = '';
-      }, 2000); // 2 seconds
-    }
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        if (response.success) {
+          this.userService.setUsername(this.username);
+          console.log('Login successful');
+          this.router.navigate(['/']); // Navigate to home
+        } else {
+          console.log('Login failed');
+          this.errorMessage = 'Invalid username or password.';
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 2000);
+        }
+      },
+      (error) => {
+        console.error('Error during login', error);
+        this.errorMessage = 'There was an error logging in. Please try again.';
+      }
+    );
   }
 
-  //TODO - CALL API THAT SUPPORTS ADD CREATE ACCOUNT FUNCTIONALITY : CHECK FOR EXISTING USER, IF NOT, ADD TO DB
-  onCreateAccount(){
-    //pass
+  onCreateAccount() {
+    this.router.navigate(['/create-account']); // Navigate to Create Account page
   }
 
-  // Method to navigate back
   goBack(): void {
-    this.location.back();
+    this.router.navigateByUrl('/');
   }
 
-} 
+  signOut() {
+    this.userService.setUsername('');
+    this.authService.logout();
+  }
+}
