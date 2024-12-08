@@ -8,13 +8,6 @@
       <h1>Gambit Gallery</h1>
     </header>
     
-    <button class="show-data" (click)="displayDataButton()">Show Data</button>
-    <!-- Display Message -->
-    <div *ngIf="message" class="message-display">
-        {{ message }}
-    </div>
-
-    
     <div class="header-container">
         <h2 class="header">Games</h2>
     </div>
@@ -50,6 +43,13 @@
     <nav>
         <a class="shop-icon" [routerLink]="['/shop']" routerLinkActive="active">
           <img src="assets/images/shop.png" alt="Shop Icon" />
+        </a>
+        <!-- Add other navigation links here -->
+     </nav>
+
+     <nav>
+        <a class="stats-icon" [routerLink]="['/stats']" routerLinkActive="active">
+          <img src="assets/images/stats.png" alt="Stats Icon" />
         </a>
         <!-- Add other navigation links here -->
      </nav>

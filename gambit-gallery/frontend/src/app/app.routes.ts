@@ -13,7 +13,7 @@ import { CompleteShopPurchaseComponent } from './complete-shop-purchase/complete
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Home route
   { path: 'login', component: LoginComponent }, // Login route
-  { path: 'data-page', component: DataPageComponent},
+  { path: 'stats', component: DataPageComponent},
   { path: 'transactions', component: TransactionsComponent},
   { path: 'shop', component: ShopComponent},
   { path: 'complete-shop-purchase', component: CompleteShopPurchaseComponent},

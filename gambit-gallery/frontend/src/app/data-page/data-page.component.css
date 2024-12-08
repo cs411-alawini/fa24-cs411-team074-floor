@@ -12,15 +12,6 @@ body,
   font-family: Arial, sans-serif;
 }
 
-table {
-    width: 90%;
-    margin: 20px auto;
-    color: white;
-  }
-  
-.mat-elevation-z8 {
-    background-color: #3c3c3c;
-}
 
 /* Back Button Styling */
 .back-button {

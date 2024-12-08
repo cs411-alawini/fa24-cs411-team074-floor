@@ -3,34 +3,4 @@
     <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
       <img src="assets/images/back_button.png" alt="Back Icon" />
     </button>
-    <div>
-      <h2 style="color: white;">Rooms</h2>
-      <p style="color: white;">{{ rooms }}</p>
-    </div>
-    <button (click)="onButton1Click()">Create Room</button>
-    <button (click)="onButton2Click()">Delete Room</button>
-  </div>
-
-  <!-- Angular Material Table -->
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-    <!-- Define Columns -->
-    <ng-container matColumnDef="column1">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Column 1 </th>
-      <td mat-cell *matCellDef="let row"> {{ row.column1 }} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="column2">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Column 2 </th>
-      <td mat-cell *matCellDef="let row"> {{ row.column2 }} </td>
-    </ng-container>
-  
-    <!-- Table Header -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  
-    <!-- Table Rows -->
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  
-  <!-- Paginator -->
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  
+   
