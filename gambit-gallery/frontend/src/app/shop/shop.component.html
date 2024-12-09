@@ -10,8 +10,22 @@
     <h1>Buy Skins</h1>
   </header>
 
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Search for Skins"
+      class="search-input"
+    />
+    <button (click)="onSearch()" class="search-button">Search</button>
+  </div>
+  
+
   <div class="skins-scroll-container">
-    <div *ngFor="let skin of skins" class="skin-card">
+    <div *ngIf="filteredSkins.length === 0" class="no-results">
+        No skins match your search.
+    </div>
+    <div *ngFor="let skin of filteredSkins" class="skin-card">
       <div class="skin-details">
         <h3>{{ skin.Description }}</h3>
       </div>

@@ -67,6 +67,7 @@
   max-width: 1000px; /* Limit maximum width */
   margin: 100px auto; /* Add space at the top and center horizontally */
   height: 300px; /* Fixed height for the container */
+  margin-left: 450px;
   background-color: #2a2a2a; /* Background color for the scrollable area */
   border: 1px solid #333; /* Border for better visibility */
   border-radius: 8px;
@@ -153,7 +154,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 20%; /* Restrict width for the cart section */
+  width: 17%; /* Restrict width for the cart section */
   height: calc(100vh - 150px); /* Leave space for header */
   overflow-y: auto; /* Allow vertical scrolling */
   background-color: #2a2a2a;
@@ -257,12 +258,57 @@
 }
 
 /* Disabled Checkout Button */
-.checkout-button.disabled {
+.shop-page.shop-container .checkout-button.disabled {
   cursor: not-allowed; /* Prevent pointer interactions */
   opacity: 0.4; /* Dim the button */
   pointer-events: none; /* Disable interactions */
 }
 
-.checkout-button.disabled img {
+.shop-page.shop-container .checkout-button.disabled img {
   transform: none; /* No hover effect */
 }
+
+/*Looking at Search Container*/
+/* Styling for the Search Bar Container */
+.shop-page.shop-container  .search-bar {
+    display: flex;
+    align-items: center; /* Align input and button vertically */
+    justify-content: center; /* Center horizontally */
+    margin: 20px auto; /* Add spacing and center in the page */
+    width: 50%; /* Adjust width */
+  }
+  
+  /* Styling for the Search Input */
+.shop-page.shop-container .search-input {
+    flex: 1; /* Allow input to grow */
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #6c63ff; /* Border color */
+    border-radius: 4px 0 0 4px; /* Rounded corners on the left */
+    outline: none;
+  }
+  
+  /* Styling for the Search Button */
+.shop-page.shop-container .search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #6c63ff; /* Button color */
+    border: none;
+    border-radius: 0 4px 4px 0; /* Rounded corners on the right */
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 1px;
+  }
+  
+  /* Hover and Active States for Button */
+  .shop-page.shop-container .search-button:hover {
+    background-color: #4a4ccd; /* Darker shade on hover */
+  }
+  
+  .shop-page.shop-container .search-button:active {
+    transform: scale(0.95); /* Slightly shrink on click */
+  }
+  
+  

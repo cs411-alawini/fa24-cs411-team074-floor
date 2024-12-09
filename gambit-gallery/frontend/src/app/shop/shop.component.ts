@@ -2,24 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router'; 
 import { Location, CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [HttpClientModule, RouterModule,CommonModule],
+  imports: [HttpClientModule, RouterModule,CommonModule,FormsModule],
   templateUrl: './shop.component.html',
-  styleUrl: './shop.component.css'
+  styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit{
     skins: Array<{ SkinID: string; Image: string; Description: string }> = []; 
     cart: Array<{ SkinID: string; Image: string; Description: string }> = [];
+    searchQuery: string = '';
+    filteredSkins = [...this.skins];
+
 
     constructor(private cartService: CartService, private router: Router, private location: Location, private http: HttpClient) {}
 
     ngOnInit(): void {
       this.fetchSkins();
     }
+
+    onSearch() {
+        console.log('Searching for:', this.searchQuery);
+        this.filteredSkins = this.skins.filter((skin) =>
+            skin.Description.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
 
     fetchSkins(): void {
       this.http
