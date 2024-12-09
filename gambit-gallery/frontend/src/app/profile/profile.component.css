@@ -43,8 +43,13 @@ body,
   margin-bottom: 10px; /* Adds spacing between welcome text and button */
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Adds space between the buttons */
+}
+
 .logout-button {
-  margin-top: 20px;
   padding: 8px 15px;
   font-size: 14px;
   color: white;

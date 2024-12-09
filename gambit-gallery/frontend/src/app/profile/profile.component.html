@@ -7,7 +7,10 @@
   <!-- Header Section -->
   <div class="header-section">
     <h2>Welcome, {{ username }}</h2>
-    <button (click)="signOut()" class="logout-button">Logout</button>
+    <div class="button-container">
+      <button (click)="signOut()" class="logout-button">Logout</button>
+      <button (click)="deleteAccount()" class="logout-button">Delete Account</button>
+    </div>
   </div>
 
   <!-- Password Change Form -->
@@ -51,6 +54,6 @@
     </div>
 
     <!-- Note under Change Password -->
-    <p class = "note">If you logged in with Google, the default password is 'floor'</p>
+    <p class="note">If you logged in with Google, the default password is 'floor'</p>
   </div>
 </div>

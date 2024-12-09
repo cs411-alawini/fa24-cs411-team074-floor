@@ -240,6 +240,19 @@ def change_password():
         return jsonify({'message': 'Account updated successfully'}), 201
     return jsonify({'error': 'Invalid data'}), 400
 
+@app.route('/api/delete-account', methods=['DELETE'])
+def delete_account():
+    data = request.get_json()
+    username = data.get('username')
+    
+    if not check_username_exists(username):
+        return jsonify({'error': 'User not found'}), 404
+
+    try:
+        cursor.execute(f'DELETE FROM Account WHERE UserId = "{username}";')
+        return jsonify({'success': True}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/api/check-username', methods=['GET'])

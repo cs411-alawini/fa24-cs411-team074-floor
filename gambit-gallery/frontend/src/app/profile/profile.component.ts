@@ -80,6 +80,38 @@ export class ProfileComponent implements OnInit {
     this.userService.setUsername('');
     this.router.navigate(['/login']);
   }
+
+  deleteAccount() {
+    const confirmDelete = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
+    
+    if (confirmDelete) {
+      const url = 'http://127.0.0.1:5000/api/delete-account'; // Assuming you have an endpoint for deleting the account
+      const payload = { username: this.username };
+
+      if (this.authService.isAuthenticated()) {
+        this.authService.logout(); // Call logout if it's a Gmail address
+      }
+
+      this.http.delete<any>(url, { body: payload }).subscribe(
+        (response) => {
+          if (response.success) {
+            console.log('Account deleted successfully');
+            this.userService.setUsername('');
+            this.authService.logout();
+            this.router.navigate(['/login']);
+          } else {
+            console.error('Failed to delete account');
+            this.errorMessage = 'There was an error deleting your account. Please try again.';
+          }
+        },
+        (error) => {
+          console.error('Error during account deletion', error);
+          this.errorMessage = 'There was an error deleting your account. Please try again.';
+        }
+      );
+    }
+  }
+
   goBack(): void {
     this.router.navigateByUrl('/');
   }
