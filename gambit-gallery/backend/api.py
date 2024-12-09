@@ -332,8 +332,8 @@ def send_funds():
         cursor.execute('INSERT INTO Transaction (TransactionID, SenderID, ReceiverID, Amount, DateTime, Description) '
             'VALUES (%s, %s, %s, %s, %s, %s)', 
             (username+recepient+str(now.strftime('%Y-%m-%d %H:%M:%S')), username, recepient, amount, now.strftime('%Y-%m-%d %H:%M:%S'), note))
-        cursor.execute(f'UPDATE Account SET Balance = "{username_oldbal-amount}" WHERE UserId = "{username}";' )
-        cursor.execute(f'UPDATE Account SET Balance = "{recepient_oldbal+amount}" WHERE UserId = "{recepient}";' )
+        # cursor.execute(f'UPDATE Account SET Balance = "{username_oldbal-amount}" WHERE UserId = "{username}";' )
+        # cursor.execute(f'UPDATE Account SET Balance = "{recepient_oldbal+amount}" WHERE UserId = "{recepient}";' )
         return jsonify({'message': 'Account updated successfully'}), 201
     return jsonify({'error': 'Invalid data'}), 400
 
