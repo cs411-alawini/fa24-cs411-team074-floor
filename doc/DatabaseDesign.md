@@ -309,6 +309,35 @@ ORDER BY g.Date
 LIMIT 15;
 ```
 
+#### Stored Procedure Code
+```sql
+DELIMITER //
+
+CREATE PROCEDURE getUserActivity(userid VARCHAR(255)) BEGIN
+    SELECT g.UserID, g.Date, g.GameCount, t.NonGameCount, g.GameCount + t.NonGameCount AS TotalActivity
+    FROM (
+        SELECT UserID, DATE(DateTime) AS Date, COUNT(*) AS GameCount
+        FROM GameHistory
+        GROUP BY UserID, DATE(DateTime)
+    ) AS g JOIN (
+        SELECT DISTINCT UserID, Date, COUNT(*) AS NonGameCount
+        FROM (
+            (SELECT SenderID AS UserID,  DATE(DateTime) AS Date 
+            FROM Transaction 
+            WHERE SenderID <> 'TEXAS_HOLDEM')
+                UNION ALL 
+            (SELECT ReceiverID AS UserID,  DATE(DateTime) AS Date 
+            FROM Transaction 
+            WHERE ReceiverID <> 'TEXAS_HOLDEM' )
+        ) AS CombinedTransactions
+    GROUP BY UserId, Date) AS t
+    ON g.UserID = t.UserID AND g.Date = t.Date
+    WHERE UserID = @userid
+    ORDER BY g.Date
+LIMIT 15;
+END//
+```
+
 ### Query Analysis
 **Attributes of GameHistory/Transactions Used in Query \#3 JOIN/GROUP BY/HAVING/WHERE and NOT PRIMARY KEY:**
 
