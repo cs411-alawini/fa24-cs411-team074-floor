@@ -142,6 +142,31 @@ GROUP BY action, UserID
 ORDER BY UserID, WinRate DESC
 LIMIT 15;
 ```
+
+#### As Stored Procedure
+```sql
+DELIMITER //
+
+CREATE PROCEDURE getUserPerformance(userid VARCHAR(255)) BEGIN
+    SELECT UserID, action, AVG(balance) AS AvgBalance, SUM(CASE WHEN balance > 0 THEN 1 ELSE 0 END) / COUNT(balance) AS WinRate
+    FROM 
+        (SELECT UserID, balance, action_pre AS action
+            FROM GameHistory
+            UNION ALL
+            SELECT UserID, balance, action_flop AS action
+            FROM GameHistory
+            UNION ALL
+            SELECT UserID, balance, action_turn AS action
+            FROM GameHistory
+            UNION ALL
+            SELECT UserID,  balance, action_river AS action
+            FROM GameHistory) AS T
+    WHERE UserID = @userid
+    GROUP BY action
+    ORDER BY WinRate DESC;
+END//
+```
+
 ### Example Execution on MySQL DB
 ![alt_text](imgs/query1.png)
 
