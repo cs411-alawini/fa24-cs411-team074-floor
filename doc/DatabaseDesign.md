@@ -76,6 +76,38 @@ CREATE TABLE GameHistory(
     FOREIGN KEY (UserID) REFERENCES Account(UserID)
 );
 ```
+
+Test Tables
+```sql
+
+CREATE TABLE Account (
+    UserID VARCHAR(255) PRIMARY KEY,
+    Balance INT
+);
+
+CREATE TABLE Transaction (
+    TransactionID VARCHAR(255) PRIMARY KEY,
+    SenderID VARCHAR(255), 
+    ReceiverID VARCHAR(255), 
+    Amount INT NOT NULL,
+    FOREIGN KEY (SenderID) REFERENCES Account(UserID) ON DELETE SET NULL,
+    FOREIGN KEY (ReceiverID) REFERENCES Account(UserID) ON DELETE SET NULL
+);
+```
+
+0. Trigger: Update on Account Balance on change in Transaction
+```sql
+delimiter //
+CREATE TRIGGER update_balance AFTER INSERT ON Transaction
+FOR EACH ROW BEGIN
+    UPDATE Account SET balance = balance - NEW.Amount WHERE UserID = NEW.SenderID;
+    UPDATE Account SET balance = balance + NEW.Amount WHERE UserID = NEW.ReceiverID;
+END;
+//
+```
+
+
+
 ## MySQL CLI Table Screenshots
 ### Tables
 ![tables](imgs/connection.png)
@@ -83,7 +115,10 @@ CREATE TABLE GameHistory(
 ![alt_text](imgs/rowCounts.png)
 
 
+
 # Advanced SQL Queries
+
+
 
 ## 1. User Performance Query
 The query retrieves the user performance for different moves in gameplay, showing the average balance and win rate for each type of game action that they do.
@@ -107,6 +142,31 @@ GROUP BY action, UserID
 ORDER BY UserID, WinRate DESC
 LIMIT 15;
 ```
+
+#### As Stored Procedure
+```sql
+DELIMITER //
+
+CREATE PROCEDURE getUserPerformance(userid VARCHAR(255)) BEGIN
+    SELECT UserID, action, AVG(balance) AS AvgBalance, SUM(CASE WHEN balance > 0 THEN 1 ELSE 0 END) / COUNT(balance) AS WinRate
+    FROM 
+        (SELECT UserID, balance, action_pre AS action
+            FROM GameHistory
+            UNION ALL
+            SELECT UserID, balance, action_flop AS action
+            FROM GameHistory
+            UNION ALL
+            SELECT UserID, balance, action_turn AS action
+            FROM GameHistory
+            UNION ALL
+            SELECT UserID,  balance, action_river AS action
+            FROM GameHistory) AS T
+    WHERE UserID = @userid
+    GROUP BY action
+    ORDER BY WinRate DESC;
+END//
+```
+
 ### Example Execution on MySQL DB
 ![alt_text](imgs/query1.png)
 
