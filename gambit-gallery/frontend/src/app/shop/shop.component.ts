@@ -16,6 +16,8 @@ export class ShopComponent implements OnInit{
     skins: any[] = []; 
     cart: any[] = [];
 
+    errorMessage: string = '';
+
     constructor(private apiService: ApiService, private cartService: CartService, private router: Router, private location: Location, private http: HttpClient) {}
 
     ngOnInit(): void {
@@ -24,12 +26,10 @@ export class ShopComponent implements OnInit{
           ([SkinID, Image, Description]: [string, string, string]) => ({
             SkinID,
             Image,
-            Description,
+            Description
           })
         );
       });
-
-      console.log(this.skins)
     }
 
     goBack(): void {
@@ -56,5 +56,4 @@ export class ShopComponent implements OnInit{
     isInCart(skin: any): boolean {
       return this.cart.some(item => item.SkinID === skin.SkinID);
     }
-
 }

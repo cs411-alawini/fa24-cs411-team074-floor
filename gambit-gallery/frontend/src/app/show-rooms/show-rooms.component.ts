@@ -33,10 +33,12 @@ export class ShowRoomsComponent implements OnInit{
         ([RoomID, Log, ChatLog]: [String, String, String]) => ({
           RoomID,
           Log,
-          ChatLog,
+          ChatLog
         })
       ); 
     });
+
+    console.log('API Response:', this.dataSource.data);
   }
 
   goBack(): void {
