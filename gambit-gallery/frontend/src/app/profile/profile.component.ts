@@ -30,6 +30,11 @@ export class ProfileComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   balance = "";
+  recipientUsername: string = '';
+  amount: number = 0;
+  note: string = '';
+  transactionSuccess: boolean = false;
+  transactionError: string = '';
 
   private router = inject(Router);
   private http = inject(HttpClient);
@@ -46,6 +51,24 @@ export class ProfileComponent implements OnInit {
       this.getBalance()
     }
     
+  }
+
+  getBalance() {
+    const url = 'http://127.0.0.1:5000/api/get-balance';
+    const payload = {
+      username: this.username,
+    };
+
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        console.log('API Response:', response);  // Check response
+        this.balance = response['balance'];  // Adjust if needed (e.g., `Number(response.data)`)
+      },
+      (error) => {
+        console.error('Error during getting balance', error);
+        this.errorMessage = 'There was an error getting your balance.';
+      }
+    );
   }
 
   getBalance() {
@@ -133,6 +156,40 @@ export class ProfileComponent implements OnInit {
       );
     }
   }
+  
+  sendFunds() {
+    const url = 'http://127.0.0.1:5000/api/send-funds';
+    const payload = {
+      username: this.username,
+      recipientUsername: this.recipientUsername,
+      amount: this.amount,
+      note: this.note,
+    };
+
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        this.transactionSuccess = true;
+        this.transactionError = '';
+        this.recipientUsername = '';
+        this.amount = 0;
+        this.note = '';
+        this.getBalance()
+      },
+      (error) => {
+        console.error('Error during sending funds', error);
+        this.transactionSuccess = false;
+        this.transactionError = 'There was an error processing your transaction. Please try again.';
+        switch(error.status) {
+          case 409:
+            this.transactionError = 'That User does not exist.';
+            break;
+          default: 
+            this.transactionError = 'There was an error sending funds. Please try again.';
+        }
+      }
+    );
+  }
+
 
   goBack(): void {
     this.router.navigateByUrl('/');
