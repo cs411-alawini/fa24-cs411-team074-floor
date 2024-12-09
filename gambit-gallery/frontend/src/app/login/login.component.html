@@ -4,43 +4,72 @@
     <img src="assets/images/back_button.png" alt="Back Icon" />
   </button>
 
-  <!-- Login Form -->
-  <div class="login-form">
-    <h2>Login</h2>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-      <!-- Username Input -->
-      <div class="form-group">
-        <input
-          type="text"
-          id="username"
-          name="username"
-          [(ngModel)]="username"
-          required
-          placeholder="Username"
-        />
-      </div>
-
-      <!-- Password Input -->
-      <div class="form-group">
-        <input
-          type="password"
-          id="password"
-          name="password"
-          [(ngModel)]="password"
-          required
-          placeholder="Password"
-        />
-      </div>
-
-      <!-- Login Button -->
-      <button type="submit" class="login-submit" [disabled]="!loginForm.form.valid">
-        Login
-      </button>
-    </form>
-
-    <!-- Error Message -->
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
+  <!-- Check Authentication and Show Profile or Login Form -->
+  <div *ngIf="isAuthenticated(); else loginForm">
+    <div class="profile">
+      <h2>Welcome, {{ getProfile()?.name }}</h2>
+      <img [src]="getProfile()?.picture" alt="Profile Picture" />
+      <button (click)="signOut()">Logout</button>
     </div>
   </div>
+
+  <ng-template #loginForm>
+    <div class="login-form">
+      <h2>Login</h2>
+
+      <!-- Form-based Login -->
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <!-- Username Input -->
+        <div class="form-group">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            [(ngModel)]="username"
+            required
+            placeholder="Username"
+          />
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Password"
+          />
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" class="login-submit" [disabled]="!loginForm.form.valid">
+          Login
+        </button>
+      </form>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Google Sign-in Button -->
+      <div class="login-button">
+        <button mat-raised-button (click)="signInWithGoogle()">
+          <img
+            src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+            alt="Google"
+            class="google-icon"
+          />
+          Sign in with Google
+        </button>
+      </div>
+
+      <!-- Link to Create Account -->
+      <div class="create-account-link">
+        <a routerLink="/create-account">Don't have an account? Create one here</a>
+      </div>
+    </div>
+  </ng-template>
 </div>

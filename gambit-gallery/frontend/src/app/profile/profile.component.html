@@ -1,0 +1,59 @@
+<div class="profile-container">
+  <!-- Back Button -->
+  <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
+    <img src="assets/images/back_button.png" alt="Back Icon" />
+  </button>
+
+  <!-- Header Section -->
+  <div class="header-section">
+    <h2>Welcome, {{ username }}</h2>
+    <div class="button-container">
+      <button (click)="signOut()" class="logout-button">Logout</button>
+      <button (click)="deleteAccount()" class="logout-button">Delete Account</button>
+    </div>
+  </div>
+
+  <!-- Password Change Form -->
+  <div class="password-change-form">
+    <h3>Change Password</h3>
+    <form (ngSubmit)="changePassword()" #passwordForm="ngForm">
+      <!-- Current Password -->
+      <div class="form-group">
+        <input
+          type="password"
+          id="currentPassword"
+          name="currentPassword"
+          [(ngModel)]="currentPassword"
+          required
+          placeholder="Current Password"
+        />
+      </div>
+
+      <!-- New Password -->
+      <div class="form-group">
+        <input
+          type="password"
+          id="newPassword"
+          name="newPassword"
+          [(ngModel)]="newPassword"
+          required
+          placeholder="New Password"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="password-change-submit" [disabled]="!passwordForm.form.valid">Change Password</button>
+    </form>
+
+    <!-- Success or Error Messages -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Note under Change Password -->
+    <p class="note">If you logged in with Google, the default password is 'floor'</p>
+  </div>
+</div>
