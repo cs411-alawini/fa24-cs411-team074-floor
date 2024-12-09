@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CartService {
-  private cartSubject: any[] = [];
+  private transfer_cart_data: any[] = [];
 
   setCart(cart: any[]) {
-    this.cartSubject = cart;
+    this.transfer_cart_data = cart;
   }
 
   getCart() {
-    return this.cartSubject;
+    return this.transfer_cart_data;
   }
 }

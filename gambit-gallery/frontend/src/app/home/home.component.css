@@ -194,4 +194,21 @@ h2 {
     transform: scale(1.1);
 }
   
+.rooms-icon {
+    position: absolute;
+    top: 3.5vh;
+    right: 14.25vw;
+    cursor: pointer;
+}
 
+.rooms-icon img {
+    width: 2vw;
+    height: 2vw;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+  
+.rooms-icon img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}

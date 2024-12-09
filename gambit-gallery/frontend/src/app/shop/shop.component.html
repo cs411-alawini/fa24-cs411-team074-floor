@@ -18,8 +18,8 @@
 
       <img src="assets/images/poker_logo.jpg" alt="Skin Image" class="skin-image" />
 
-    <button class="add-to-cart-button" [disabled]="isInCart(skin.SkinID)" (click)="addToCart(skin)">
-      {{ isInCart(skin.SkinID) ? 'Added' : 'Add to Cart' }}
+    <button class="add-to-cart-button" [disabled]="isInCart(skin)" (click)="addToCart(skin)">
+      {{ isInCart(skin) ? 'Added' : 'Add to Cart' }}
     </button>
     </div>
   </div>
