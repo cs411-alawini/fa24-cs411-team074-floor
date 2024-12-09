@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'; // Material D
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user.service'; // Import the UserService
 
 
 @Component({
@@ -45,6 +45,7 @@ export class CreateAccountComponent {
         console.log('Account Creation successful');
         this.userService.setUsername(this.username);
         this.successMessage = 'Account created successfully!';
+        this.router.navigate(['/profile'])
         this.errorMessage = '';
       },
       (error) => {
@@ -53,6 +54,9 @@ export class CreateAccountComponent {
           // make it so they cant use a list of symbols in their this.username, @ being one of them
           case 403: 
             this.errorMessage = 'Invalid Username. Please only use Alphanumeric + _, ., and -.';
+            break;
+          case 409:
+            this.errorMessage = 'This Username is already taken. Please try again.';
             break;
           default:
             this.errorMessage = 'Failed to create account. Please try again.';

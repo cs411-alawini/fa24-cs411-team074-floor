@@ -119,14 +119,125 @@ body,
   font-size: 14px;
   color: #ff4d4d; /* Red for error text */
   text-align: center;
-  animation: fadeOut 3s forwards;
 }
 
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+
+/* Google Login Button Styling */
+.login-button {
+  text-align: center;
+  margin-top: 20px;
+  width: 100%; /* Make the container take full width */
+  display: flex;
+  justify-content: center; /* Centering button horizontally */
 }
+
+.login-button button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%; /* Full width for the button */
+  max-width: 250px; /* Limit button width */
+  padding: 10px 15px;
+  background-color: #497fc5;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-button button:hover {
+  background-color: #6f6fc5; /* Slightly darker hover */
+  transform: scale(1.05); /* Subtle hover zoom */
+}
+
+.login-button img.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Optional additional focus styling */
+.login-button button:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(127, 127, 213, 0.6);
+}
+
+/* Profile Section Styling */
+.profile {
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+  padding: 20px 25px; /* Added padding for spacing */
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 100%;
+  max-width: 350px; /* Adjust the width to match the form */
+  margin: 20px auto; /* Center the profile section */
+}
+
+/* Profile Image Styling */
+.profile img {
+  border-radius: 50%; /* Circular profile picture */
+  width: 100px; /* Fixed size for the image */
+  height: 100px;
+  object-fit: cover; /* Ensure the image covers the space without distortion */
+  margin-bottom: 20px; /* Space between image and text */
+}
+
+/* Profile Heading Styling */
+.profile h2 {
+  font-size: 24px; /* Larger font for the profile name */
+  color: #333;
+  margin-bottom: 20px; /* Space between name and logout button */
+}
+
+/* Logout Button Styling */
+.profile button {
+  background-color: #497fc5; /* Red color for logout button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.profile button:hover {
+  background-color: #6f6fc5; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Profile Section When Logged In */
+.profile h2,
+.profile img,
+.profile button {
+  margin-top: 0;
+}
+
+
+/* Create Account Link Styling */
+.create-account-link {
+  margin-top: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+.create-account-link a {
+  color: #497fc5; /* Blue color matching button */
+  font-size: 14px; /* Small font size for subtlety */
+  text-decoration: none; /* Remove underline */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.create-account-link a:hover {
+  color: #6f6fc5; /* Slightly darker blue on hover */
+  text-decoration: underline; /* Add underline on hover for emphasis */
+  transform: scale(1.05); /* Subtle zoom effect */
+}
+
+.create-account-link a:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(127, 127, 213, 0.6); /* Blue glow for focus */
+}
+

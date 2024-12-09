@@ -5,9 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthGoogleService } from './auth-google.service';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../services/user.service'; // Import the UserService
-import { AuthGoogleService } from './auth-google.service';
 
 @Component({
   selector: 'app-login',
@@ -53,6 +53,13 @@ export class LoginComponent implements OnInit {
 
   signInWithGoogle() {
     this.authService.login();
+    const email = this.authService.getProfile()?.email; // Assuming the email is available in the profile
+    if (email) {
+      this.userService.setUsername(email);
+      console.log('Logged in with Google, username set as ' + this.userService.getUsername());
+    } else {
+      console.log('Failed to retrieve email from profile');
+    }
   }
 
   onSubmit() {

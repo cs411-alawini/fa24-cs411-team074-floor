@@ -1,12 +1,12 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from mysql.connector import connection
-
+import re
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
-    user="root", password="root", database="gambit_gallery"
+    user="root", database="gambit_gallery"
 )
 # connection = mysql.connector.connect(
 #     host="34.41.165.201",
@@ -15,7 +15,7 @@ connection = connection.MySQLConnection(
 #     database="gambit_gallery",
 #     connection_timeout = 10
 # )
-cursor = connection.cursor()
+cursor = connection.cursor(dictionary = True)
 
 queries = {
     "UP": '''
@@ -141,6 +141,14 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
+    VALID_USERNAME_REGEX = r'^[a-zA-Z0-9_.-]+$'  # Alphanumeric + _, ., and -
+
+    if not re.match(VALID_USERNAME_REGEX, username): # errors if the username used is not a valid one
+        return jsonify({'error': 'Forbidden'}), 403
+    
+    if not check_username_exists(username): # errors if username used to log in doesnt exist in the db
+        return jsonify({'error': 'Conflict'}), 409
+
     if not username or not password:
         return jsonify({"error": "Username and password are required."}), 400
 
@@ -153,14 +161,87 @@ def login():
     cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
     user = cursor.fetchone()
 
-    # username can't include @gmail.com, reserved for google oauth login
-    if user and '@gmail.com' not in user['UserID'] and user['Pass'] == password:  # Here, replace with hash comparison for production
-        cursor.close()
+    if user and user['Pass'] == password:  # Here, replace with hash comparison for production
         return jsonify({"success": True, "message": "Login successful", "user": {"name": user['UserID'], "picture": ''}})
     else:
-        cursor.close()
         return jsonify({"error": "Invalid username or password."}), 401
+    
+@app.route('/api/create-account', methods=['POST'])
+def create_account():
+    VALID_USERNAME_REGEX = r'^[a-zA-Z0-9_.-]+$'  # Alphanumeric + _, ., and -
 
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    # check if username includes @gmail.com, error if it does because that is reserved for google Oauth
+    if not re.match(VALID_USERNAME_REGEX, username):
+        return jsonify({'error': 'Forbidden'}), 403
+    
+    if check_username_exists(username):
+        return jsonify({'error': 'Conflict'}), 409
+    
+@app.route('/api/create-account-oauth', methods=['POST'])
+def create_account_oauth():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    print(username)
+    # check if username includes @gmail.com, error if it does because that is reserved for google Oauth
+    if check_username_exists(username):
+        return jsonify({'message': 'No need to create'}), 200
+
+    # Insert account into the database (example logic)
+    if username and password:
+        # hashed_password = hash_password(password)  # Implement hashing
+        cursor.execute(
+            'INSERT INTO Account (UserID, Pass, CurrentSkin, RoomID, Balance) '
+            'VALUES (%s, %s, %s, %s, %s)', 
+            (username, password, 's1', None, 0)
+        )
+        # cursor.execute(f'SELECT * FROM Account WHERE UserID = "{username}";')
+        # print(cursor.fetchone())
+        return jsonify({'message': 'Account created successfully'}), 201
+    return jsonify({'error': 'Invalid data'}), 400
+
+@app.route('/api/change-password', methods=['POST'])
+def change_password():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    
+    if not check_username_exists(username):
+        return jsonify({'error': 'Conflict'}), 409
+
+    # Insert account into the database (example logic)
+    if username and password:
+        
+        # hashed_password = hash_password(password)  # Implement hashing
+        cursor.execute(f'UPDATE Account SET Pass = "{password}" WHERE UserId = "{username}";')
+        return jsonify({'message': 'Account created successfully'}), 201
+    return jsonify({'error': 'Invalid data'}), 400
+
+
+
+@app.route('/api/check-username', methods=['GET'])
+def check_username(username):
+    # Replace with your actual database check
+    username = request.get_data().get('username')
+    cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
+    profile = cursor.fetchone()
+    if not profile:
+        return jsonify({"valid": False}), 404
+    else:
+        return jsonify({"profile": profile})
+    
+def check_username_exists(username):
+    # Replace with your actual database check
+    cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
+    profile = cursor.fetchone()
+    if not profile:
+        return False
+    else:
+        return True
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

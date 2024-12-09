@@ -1,55 +1,85 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from '../services/user.service'; // Import the UserService
+import { AuthGoogleService } from '../login/auth-google.service';
+
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './profile.component.html', // Template for the component
-  styleUrls: ['./profile.component.scss'], // Optional stylesheet for the component
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+  ],
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   username: string = '';
-
-  userProfile: any = null;
+  currentPassword: string = '';
+  newPassword: string = '';
+  successMessage: string = '';
   errorMessage: string = '';
-  loading: boolean = true;
 
-  private userService = inject(UserService); // Inject UserService
+  private router = inject(Router);
+  private http = inject(HttpClient);
+  private userService = inject(UserService); // Inject the UserService
+  private authService = inject(AuthGoogleService);
+
 
   ngOnInit() {
     this.username = this.userService.getUsername();
-    console.log('Welcome, ' + this.username);
-    this.loading = false;
+    if (!this.username) {
+      console.log('No user logged in, redirecting to login...');
+      this.router.navigate(['/login']);
+    }
+  }
+
+  changePassword() {
+    const url = 'http://127.0.0.1:5000/api/change-password';
+    const payload = {
+      username: this.username,
+      currentPassword: this.currentPassword,
+      newPassword: this.newPassword,
+    };
+
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        if (response.success) {
+          this.successMessage = 'Password changed successfully.';
+          this.errorMessage = '';
+          this.currentPassword = '';
+          this.newPassword = '';
+        } else {
+          this.errorMessage = response.message || 'Password change failed.';
+          this.successMessage = '';
+        }
+      },
+      (error) => {
+        console.error('Error during password change', error);
+        this.errorMessage = 'There was an error changing your password. Please try again.';
+        this.successMessage = '';
+      }
+    );
+  }
+
+  signOut() {
+    if (this.authService.isAuthenticated()) {
+      this.authService.logout(); // Call logout if it's a Gmail address
+    }
+    this.userService.setUsername('');
+    this.router.navigate(['/login']);
+  }
+  goBack(): void {
+    this.router.navigateByUrl('/');
   }
 }
-
-  // checkUserValidity(username: string) {
-  //   // Call the API to check if the username is valid
-  //   const url = `http://127.0.0.1:5000/api/check-username/${username}`;
-    
-  //   this.http.get<any>(url).subscribe(
-  //     (response) => {
-  //       if (response.valid) {
-  //         this.userProfile = response.profile; // Assuming the API returns profile data
-  //         this.loading = false;
-  //       } else {
-  //         this.errorMessage = 'Invalid username';
-  //         this.loading = false;
-  //         setTimeout(() => {
-  //           this.router.navigate(['/login']); // Redirect to login page if invalid username
-  //         }, 2000);
-  //       }
-  //     },
-  //     (error) => {
-  //       console.error('Error checking username validity', error);
-  //       this.errorMessage = 'There was an error checking the username.';
-  //       this.loading = false;
-  //     }
-  //   );
-  // }
-// }
