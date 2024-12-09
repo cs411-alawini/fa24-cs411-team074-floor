@@ -16,7 +16,7 @@ connection = connection.MySQLConnection(
 #     database="gambit_gallery",
 #     connection_timeout = 10
 # )
-cursor = connection.cursor(dictionary = True)
+cursor = connection.cursor()
 
 queries = {
     "UP": '''

@@ -4,6 +4,7 @@ import { Location, CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CartService } from '../cart.service';
 import { FormsModule } from '@angular/forms'; // <-- Add this import
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-shop',
@@ -18,6 +19,7 @@ export class ShopComponent implements OnInit {
     searchTerm: string = ''; // <-- Add this property for the search term
 
     constructor(
+      private apiService: ApiService,
       private cartService: CartService, 
       private router: Router, 
       private location: Location, 
@@ -29,13 +31,16 @@ export class ShopComponent implements OnInit {
     }
 
     fetchSkins(): void {
-        this.skins = [
-            {SkinID: "s0", Image: "bruh", Description: "abc"},
-            {SkinID: "s1", Image: "bruh", Description: "bcd"},
-            {SkinID: "s2", Image: "bruh", Description: "cde"},
-            {SkinID: "s3", Image: "bruh", Description: "def"},
-            {SkinID: "s4", Image: "bruh", Description: "efg"},
-        ];
+      this.apiService.getSkins().subscribe(
+        response => {
+          this.skins = response.result.map(([SkinID, Image, Description]: [string, string, string]) => ({
+            SkinID: SkinID,
+            Image: Image,
+            Description: Description
+          }));
+        }
+      )
+
     }
 
     filteredSkins(): Array<{ SkinID: string; Image: string; Description: string }> {
