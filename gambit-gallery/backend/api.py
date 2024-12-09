@@ -11,7 +11,6 @@ connection = connection.MySQLConnection(
     user="root", password="root", database="gambit_gallery"
 )
 
-
 '''
 CORS(app)
 

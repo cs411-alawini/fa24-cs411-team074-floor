@@ -24,23 +24,34 @@ export class ShowRoomsComponent implements OnInit{
   dataSource = new MatTableDataSource([]);
 
   ngOnInit(): void {
-    this.apiService.getRooms().subscribe((data) => {
-      //console.log("API Response: ", data);
+    this.fetch();
+  }
 
+  fetch(): void {
+    this.apiService.getRooms().subscribe((data) => {
       this.dataSource.data = data.result.map(
-        ([RoomID, Log, ChatLog]: [any, any, any]) => ({
+        ([RoomID, Log, ChatLog]: [String, String, String]) => ({
           RoomID,
           Log,
           ChatLog,
         })
       ); 
     });
-
-    //console.log("DATA SOURCE -> ", this.dataSource)
   }
 
   goBack(): void {
     this.location.back();
   }
 
+  addRoom(): void {
+    this.apiService.createRoom().subscribe(() => {
+      this.fetch();
+    });
+  }
+
+  deleteRoom(): void {
+    this.apiService.deleteRoom().subscribe(() => {
+      this.fetch();
+    });
+  }
 }

@@ -30,5 +30,13 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/get_rooms`)
   }
 
+  createRoom(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/create_room`)
+  }
+
+  deleteRoom(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/delete_room`)
+  }
+
 }
 
