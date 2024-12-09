@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from mysql.connector import connection
 
@@ -84,7 +84,7 @@ def query(q):
     cursor.execute(queries[q])
     return jsonify({"query": cursor.fetchall()})
 
-@app.route('/api/query/get_skins')
+@app.route('/api/get_skins')
 def get_skins():
     cursor.execute('select * from Skin;')
     return jsonify({"result": cursor.fetchall()})
@@ -120,6 +120,47 @@ def get_log():
 def update_log(room, text):
     cursor.execute(f'update Room set ChatLog = "{text}" where RoomId = "{room}";')
     return jsonify({"result": cursor.fetchall()})
+
+@app.route("/api/get_transactions/<user>", methods=["GET"])
+def get_transactions(user):
+    cursor.execute(
+        f'select * from Transaction where SenderID = "{user}" or ReceiverID = "{user}" limit 15'
+    )
+    data = []
+    for d in cursor.fetchall():
+        transid, sid, rid, amnt, date, descrip = d
+        data.append({"from": sid, "to": rid, "amount": amnt, "date": date, "description": descrip})
+        # print(f'from: {sid}, to: {rid}, amnt: {amnt}, date: {date}, descrip: {descrip}')
+    
+    return jsonify(data)
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    # Get the request data (username and password)
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({"error": "Username and password are required."}), 400
+
+    # Query the database for the username
+    # connection = create_connection()
+    # if connection is None:
+    #     return jsonify({"error": "Failed to connect to the database."}), 500
+    
+    # cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
+    user = cursor.fetchone()
+
+    # username can't include @gmail.com, reserved for google oauth login
+    if user and '@gmail.com' not in user['UserID'] and user['Pass'] == password:  # Here, replace with hash comparison for production
+        cursor.close()
+        return jsonify({"success": True, "message": "Login successful", "user": {"name": user['UserID'], "picture": ''}})
+    else:
+        cursor.close()
+        return jsonify({"error": "Invalid username or password."}), 401
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
