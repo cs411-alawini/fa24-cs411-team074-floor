@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
-    user="root", database="gambit_gallery", password="root"
+    user="root", database="gambit_gallery", #password="root"
     # user="root", database="gambit_gallery"
 )
 # connection = mysql.connector.connect(
@@ -16,7 +16,7 @@ connection = connection.MySQLConnection(
 #     database="gambit_gallery",
 #     connection_timeout = 10
 # )
-cursor = connection.cursor(dictionary = True)
+cursor = connection.cursor()
 
 queries = {
     "UP": '''
@@ -255,12 +255,24 @@ def delete_account():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/get-balance', methods=['POST'])
+def get_balance():
+    data = request.get_json()
+    username = data.get('username')
+
+    cursor.execute(f'SELECT Balance From Account WHERE UserID = "{username}"')
+    balance = cursor.fetchall()
+    if balance:
+        # print(balance[0])
+        return jsonify({"balance": balance[0]}), 200
+    else:
+        return jsonify({'error': 'Invalid data'}), 400
 
 @app.route('/api/check-username', methods=['GET'])
 def check_username(username):
     # Replace with your actual database check
     username = request.get_data().get('username')
-    cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
+    cursor.execute("SELECT * FROM Account WHERE UserID = %s", (username,))
     profile = cursor.fetchone()
     if not profile:
         return jsonify({"valid": False}), 404
@@ -275,6 +287,33 @@ def check_username_exists(username):
         return False
     else:
         return True
+    
+@app.route('/api/get-user-performance', methods=['POST'])
+def get_user_performance():
+    data = request.get_json()
+    username = data.get('username')
+
+    # Check if the username exists
+    if not check_username_exists(username):
+        return jsonify({'error': 'User not found'}), 404
+    
+    # Call the stored procedure with the correct parameter
+    cursor.callproc('getUserPerformance', [username])
+    
+    # Fetch and process the result
+    results = []
+    for result in cursor.stored_results():
+        results.extend(result.fetchall())  # Flatten results if it's a multiple-row result
+
+    print(str(results))
+    print("kmskmskmskms")
+    # Prepare the response (if the result is empty, return an empty list)
+    if not results:
+        return jsonify({"data": []})
+
+    # Return the results in JSON format
+    print(str(results))
+    return jsonify({"data": results})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

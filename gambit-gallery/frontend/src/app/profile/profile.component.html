@@ -7,6 +7,12 @@
   <!-- Header Section -->
   <div class="header-section">
     <h2>Welcome, {{ username }}</h2>
+    
+    <!-- Display User Balance -->
+    <div class="user-balance">
+      <h2>Balance: {{ balance }}</h2>
+    </div>
+    
     <div class="button-container">
       <button (click)="signOut()" class="logout-button">Logout</button>
       <button (click)="deleteAccount()" class="logout-button">Delete Account</button>

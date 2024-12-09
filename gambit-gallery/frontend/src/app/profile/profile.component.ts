@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
   newPassword: string = '';
   successMessage: string = '';
   errorMessage: string = '';
+  balance = "";
 
   private router = inject(Router);
   private http = inject(HttpClient);
@@ -41,7 +42,28 @@ export class ProfileComponent implements OnInit {
     if (!this.username) {
       console.log('No user logged in, redirecting to login...');
       this.router.navigate(['/login']);
+    } else {
+      this.getBalance()
     }
+    
+  }
+
+  getBalance() {
+    const url = 'http://127.0.0.1:5000/api/get-balance';
+    const payload = {
+      username: this.username,
+    };
+
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        console.log('API Response:', response);  // Check response
+        this.balance = response['balance'];  // Adjust if needed (e.g., `Number(response.data)`)
+      },
+      (error) => {
+        console.error('Error during getting balance', error);
+        this.errorMessage = 'There was an error getting your balance.';
+      }
+    );
   }
 
   changePassword() {
