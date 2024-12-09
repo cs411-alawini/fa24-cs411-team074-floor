@@ -9,12 +9,45 @@
    
     <!-- Central Logo -->
     <header class="central-logo">
-        <h1>User(s) Statistics</h1>
+        <h1>{{username}}'s Statistics</h1>
         <h2>Move-Level Stats</h2>
         <h3>Game Histories</h3>
       </header>
 
 <div class="table-wrapper">
+  <div class="performance-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>User Performance</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-table [dataSource]="data" class="mat-elevation-z8">
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.action }} </mat-cell>
+          </ng-container>
+  
+          <!-- AvgBalance Column -->
+          <ng-container matColumnDef="avgBalance">
+            <mat-header-cell *matHeaderCellDef> Average Balance </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.avgBalance | currency }} </mat-cell>
+          </ng-container>
+  
+          <!-- WinRate Column -->
+          <ng-container matColumnDef="winRate">
+            <mat-header-cell *matHeaderCellDef> Win Rate </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.winRate | percent}} </mat-cell>
+          </ng-container>
+  
+          <!-- Header and Row Definitions -->
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
     <!-- Move Level Stats Container -->
 <div class="moves-stats-container">
     <!-- Material Table -->
