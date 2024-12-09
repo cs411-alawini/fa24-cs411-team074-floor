@@ -4,14 +4,17 @@ from mysql.connector import connection
 import mysql.connector
 
 app = Flask(__name__)
+
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
-#CORS(app)
 
 connection = connection.MySQLConnection(
     user="root", password="root", database="gambit_gallery"
 )
 
+
 '''
+CORS(app)
+
 connection = mysql.connector.connect(
  host="34.41.165.201",
  user="root",
