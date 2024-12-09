@@ -47,7 +47,27 @@ export class ProfileComponent implements OnInit {
     if (!this.username) {
       console.log('No user logged in, redirecting to login...');
       this.router.navigate(['/login']);
+    } else {
+      this.getBalance()
     }
+  }
+
+  getBalance() {
+    const url = 'http://127.0.0.1:5000/api/get-balance';
+    const payload = {
+      username: this.username,
+    };
+
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        console.log('API Response:', response);  // Check response
+        this.balance = response['balance'];  // Adjust if needed (e.g., `Number(response.data)`)
+      },
+      (error) => {
+        console.error('Error during getting balance', error);
+        this.errorMessage = 'There was an error getting your balance.';
+      }
+    );
   }
 
   changePassword() {
@@ -134,11 +154,19 @@ export class ProfileComponent implements OnInit {
         this.recipientUsername = '';
         this.amount = 0;
         this.note = '';
+        this.getBalance()
       },
       (error) => {
         console.error('Error during sending funds', error);
         this.transactionSuccess = false;
         this.transactionError = 'There was an error processing your transaction. Please try again.';
+        switch(error.status) {
+          case 409:
+            this.transactionError = 'That User does not exist.';
+            break;
+          default: 
+            this.transactionError = 'There was an error sending funds. Please try again.';
+        }
       }
     );
   }

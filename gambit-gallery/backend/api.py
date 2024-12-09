@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
-    user="root", database="gambit_gallery", password="root"
+    user="root", database="gambit_gallery", #password="root"
     #user="root", database="gambit_gallery"
 )
 # connection = mysql.connector.connect(
@@ -274,7 +274,7 @@ def check_username(username):
 def check_username_exists(username):
     # Replace with your actual database check
     cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
-    profile = cursor.fetchone()
+    profile = cursor.fetchall()
     if not profile:
         return False
     else:
@@ -311,11 +311,12 @@ def get_user_performance():
 def send_funds():
     data = request.get_json()
     username = data.get('username')
-    recepient = data.get('recepient')
+    recepient = data.get('recipientUsername')
     amount = data.get('amount')
     note = data.get('note')
 
     now = datetime.now()
+    print(recepient)
     if not check_username_exists(recepient):
         return jsonify({'error': 'UserID doesnt exist'}), 409
     
@@ -330,9 +331,24 @@ def send_funds():
     if username and recepient:
         cursor.execute('INSERT INTO Transaction (TransactionID, SenderID, ReceiverID, Amount, DateTime, Description) '
             'VALUES (%s, %s, %s, %s, %s, %s)', 
-            (username, username, recepient, amount, now.strftime('%Y-%m-%d %H:%M:%S'), note))
+            (username+recepient+str(now.strftime('%Y-%m-%d %H:%M:%S')), username, recepient, amount, now.strftime('%Y-%m-%d %H:%M:%S'), note))
+        cursor.execute(f'UPDATE Account SET Balance = "{username_oldbal-amount}" WHERE UserId = "{username}";' )
+        cursor.execute(f'UPDATE Account SET Balance = "{recepient_oldbal+amount}" WHERE UserId = "{recepient}";' )
         return jsonify({'message': 'Account updated successfully'}), 201
     return jsonify({'error': 'Invalid data'}), 400
+
+@app.route('/api/get-balance', methods=['POST'])
+def get_balance():
+    data = request.get_json()
+    username = data.get('username')
+
+    cursor.execute(f'SELECT Balance From Account WHERE UserID = "{username}"')
+    balance = cursor.fetchall()
+    if balance:
+        # print(balance[0])
+        return jsonify({"balance": balance[0]}), 200
+    else:
+        return jsonify({'error': 'Invalid data'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
