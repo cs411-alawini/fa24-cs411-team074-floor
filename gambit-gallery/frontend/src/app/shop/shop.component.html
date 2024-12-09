@@ -1,8 +1,15 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap"
+  rel="stylesheet"
+/>
 <div class="shop-page shop-container">
-  <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
+  <button
+    class="back-button"
+    (click)="goBack()"
+    aria-label="Back to Previous Page"
+  >
     <img src="assets/images/back_button.png" alt="Back Icon" />
   </button>
 
@@ -19,25 +26,53 @@
     />
     <button (click)="onSearch()" class="search-button">Search</button>
   </div>
-  
 
   <div class="skins-scroll-container">
-    <div *ngIf="filteredSkins.length === 0" class="nothing-searched">
-        <div *ngFor="let skin of skins" class="skin-card">
-            <div class="skin-details">
-              <h3>{{skin.Description }}</h3>
-            </div>
-    </div>
-    <div *ngFor="let skin of filteredSkins" class="skin-card">
-      <div class="skin-details">
-        <h3>{{skin.Description }}</h3>
+    <!-- Case 1: No matching results -->
+    <div
+      *ngIf="
+        filteredSkins.length === skins.length || filteredSkins.length === 0
+      "
+      class="nothing-searched"
+    >
+      <div *ngFor="let skin of skins" class="skin-card">
+        <div class="skin-details">
+          <h3>{{ skin.Description }}</h3>
+        </div>
+        <img
+          src="assets/images/poker_logo.jpg"
+          alt="Skin Image"
+          class="skin-image"
+        />
+        <button
+          class="add-to-cart-button"
+          [disabled]="isInCart(skin.SkinID)"
+          (click)="addToCart(skin)"
+        >
+          {{ isInCart(skin.SkinID) ? "Added" : "Add to Cart" }}
+        </button>
       </div>
+    </div>
 
-      <img src="assets/images/poker_logo.jpg" alt="Skin Image" class="skin-image" />
-
-    <button class="add-to-cart-button" [disabled]="isInCart(skin.SkinID)" (click)="addToCart(skin)">
-      {{ isInCart(skin.SkinID) ? 'Added' : 'Add to Cart' }}
-    </button>
+    <!-- Case 2: Valid thing entered into search bar-->
+    <div *ngIf="filteredSkins.length > 0 && filteredSkins.length != skins.length">
+      <div *ngFor="let skin of filteredSkins" class="skin-card">
+        <div class="skin-details">
+          <h3>{{ skin.Description }}</h3>
+        </div>
+        <img
+          src="assets/images/poker_logo.jpg"
+          alt="Skin Image"
+          class="skin-image"
+        />
+        <button
+          class="add-to-cart-button"
+          [disabled]="isInCart(skin.SkinID)"
+          (click)="addToCart(skin)"
+        >
+          {{ isInCart(skin.SkinID) ? "Added" : "Add to Cart" }}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -48,13 +83,19 @@
       <div *ngFor="let item of cart; let i = index" class="cart-item">
         <span>{{ i + 1 }}. {{ item.Description }}</span>
 
-        <button class="remove-from-cart-button" (click)="removeFromCart(item)">×</button>
+        <button class="remove-from-cart-button" (click)="removeFromCart(item)">
+          ×
+        </button>
       </div>
     </div>
 
-    <button class="checkout-button" [disabled]="cart.length === 0" [ngClass]="{ 'disabled': cart.length === 0 }" (click)="checkout()">
+    <button
+      class="checkout-button"
+      [disabled]="cart.length === 0"
+      [ngClass]="{ disabled: cart.length === 0 }"
+      (click)="checkout()"
+    >
       <img src="assets/images/checkout_button.png" alt="Checkout Icon" />
     </button>
-
   </div>
 </div>
