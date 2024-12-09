@@ -12,20 +12,13 @@ connection = connection.MySQLConnection(
     user="root", database="gambit_gallery", password="root"
     #user="root", database="gambit_gallery"
 )
-
-#cursor = connection.cursor(dictionary = True)
-
-'''
-CORS(app)
-connection = mysql.connector.connect(
-     host="34.41.165.201",
-     user="root",
-     password="GambitGallery!",
-     database="gambit_gallery",
-     connection_timeout = 10
- )
-'''
-
+# connection = mysql.connector.connect(
+#     host="34.41.165.201",
+#     user="root",
+#     password="GambitGallery!",
+#     database="gambit_gallery",
+#     connection_timeout = 10
+# )
 cursor = connection.cursor()
 
 queries = {
@@ -171,9 +164,10 @@ def login():
     # cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
     user = cursor.fetchone()
+    t_pass = user[1]
 
-    if user and user['Pass'] == password:  # Here, replace with hash comparison for production
-        return jsonify({"success": True, "message": "Login successful", "user": {"name": user['UserID'], "picture": ''}})
+    if user and t_pass == password:  # Here, replace with hash comparison for production
+        return jsonify({"success": True, "message": "Login successful", "user": {"name": user[0], "picture": ''}})
     else:
         return jsonify({"error": "Invalid username or password."}), 401
     
