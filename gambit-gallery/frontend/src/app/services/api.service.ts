@@ -23,7 +23,7 @@ export class ApiService {
   }
 
   getSkins(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/get_skins/`)
+    return this.http.get(`${this.apiUrl}/get_skins`)
   }
   
 }

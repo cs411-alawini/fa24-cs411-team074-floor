@@ -11,9 +11,9 @@
   </header>
 
   <div class="cart-items-container">
-    <div *ngFor="let item of cart; let i = index" class="cart-item">
+    <div *ngFor="let skin of cart; let i = index" class="cart-item">
       <div class="cart-item-details">
-        <span>{{ i + 1 }}. {{ item.Description }}</span>
+        <span>{{ i + 1 }}. {{ skin.Description }}</span>
       </div>
     </div>
   </div>

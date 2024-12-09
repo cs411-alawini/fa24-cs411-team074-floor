@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from mysql.connector import connection
+import mysql.connector
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
@@ -8,13 +9,13 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 connection = connection.MySQLConnection(
     user="root", password="root", database="gambit_gallery"
 )
-# connection = mysql.connector.connect(
-#     host="34.41.165.201",
-#     user="root",
-#     password="GambitGallery!",
-#     database="gambit_gallery",
-#     connection_timeout = 10
-# )
+#connection = mysql.connector.connect(
+# host="34.41.165.201",
+# user="root",
+# password="GambitGallery!",
+# database="gambit_gallery",
+# connection_timeout = 10
+#)
 cursor = connection.cursor()
 
 queries = {
@@ -84,7 +85,7 @@ def query(q):
     cursor.execute(queries[q])
     return jsonify({"query": cursor.fetchall()})
 
-@app.route('/api/query/get_skins')
+@app.route('/api/get_skins')
 def get_skins():
     cursor.execute('select * from Skin;')
     return jsonify({"result": cursor.fetchall()})
