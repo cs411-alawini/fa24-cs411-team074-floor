@@ -37,8 +37,6 @@ export class ShowRoomsComponent implements OnInit{
         })
       ); 
     });
-
-    console.log('API Response:', this.dataSource.data);
   }
 
   goBack(): void {
