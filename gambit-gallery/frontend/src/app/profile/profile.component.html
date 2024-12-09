@@ -56,4 +56,55 @@
     <!-- Note under Change Password -->
     <p class="note">If you logged in with Google, the default password is 'floor'</p>
   </div>
+
+  <!-- New Transaction Form -->
+  <div class="transaction-form">
+    <h3>Send Funds</h3>
+    <form (ngSubmit)="sendFunds()" #transactionForm="ngForm">
+      <!-- Recipient Username -->
+      <div class="form-group">
+        <input
+          type="text"
+          id="recipientUsername"
+          name="recipientUsername"
+          [(ngModel)]="recipientUsername"
+          required
+          placeholder="Recipient Username"
+        />
+      </div>
+
+      <!-- Amount -->
+      <div class="form-group">
+        <input
+          type="number"
+          id="amount"
+          name="amount"
+          [(ngModel)]="amount"
+          required
+          placeholder="Amount"
+        />
+      </div>
+
+      <!-- Note -->
+      <div class="form-group">
+        <textarea
+          id="note"
+          name="note"
+          [(ngModel)]="note"
+          placeholder="Note (optional)"
+        ></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="transaction-submit" [disabled]="!transactionForm.form.valid">Send</button>
+    </form>
+
+    <!-- Success or Error Messages -->
+    <div *ngIf="transactionSuccess" class="success-message">
+      Transaction Sent Successfully!
+    </div>
+    <div *ngIf="transactionError" class="error-message">
+      {{ transactionError }}
+    </div>
+  </div>
 </div>

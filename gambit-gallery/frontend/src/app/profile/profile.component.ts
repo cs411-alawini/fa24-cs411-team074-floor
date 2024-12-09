@@ -29,6 +29,12 @@ export class ProfileComponent implements OnInit {
   newPassword: string = '';
   successMessage: string = '';
   errorMessage: string = '';
+  balance = "";
+  recipientUsername: string = '';
+  amount: number = 0;
+  note: string = '';
+  transactionSuccess: boolean = false;
+  transactionError: string = '';
 
   private router = inject(Router);
   private http = inject(HttpClient);
@@ -111,6 +117,32 @@ export class ProfileComponent implements OnInit {
       );
     }
   }
+  
+  sendFunds() {
+    const url = 'http://127.0.0.1:5000/api/send-funds';
+    const payload = {
+      username: this.username,
+      recipientUsername: this.recipientUsername,
+      amount: this.amount,
+      note: this.note,
+    };
+
+    this.http.post<any>(url, payload).subscribe(
+      (response) => {
+        this.transactionSuccess = true;
+        this.transactionError = '';
+        this.recipientUsername = '';
+        this.amount = 0;
+        this.note = '';
+      },
+      (error) => {
+        console.error('Error during sending funds', error);
+        this.transactionSuccess = false;
+        this.transactionError = 'There was an error processing your transaction. Please try again.';
+      }
+    );
+  }
+
 
   goBack(): void {
     this.router.navigateByUrl('/');

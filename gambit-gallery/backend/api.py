@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from mysql.connector import connection
-import mysql.connector
+from datetime import datetime
 import re
 
 app = Flask(__name__)
@@ -279,6 +279,60 @@ def check_username_exists(username):
         return False
     else:
         return True
+    
+@app.route('/api/get-user-performance', methods=['POST'])
+def get_user_performance():
+    data = request.get_json()
+    username = data.get('username')
+
+    # Check if the username exists
+    if not check_username_exists(username):
+        return jsonify({'error': 'User not found'}), 404
+    
+    # Call the stored procedure with the correct parameter
+    cursor.callproc('getUserPerformance', [username])
+    
+    # Fetch and process the result
+    results = []
+    for result in cursor.stored_results():
+        results.extend(result.fetchall())  # Flatten results if it's a multiple-row result
+
+    print(str(results))
+    print("kmskmskmskms")
+    # Prepare the response (if the result is empty, return an empty list)
+    if not results:
+        return jsonify({"data": []})
+
+    # Return the results in JSON format
+    print(str(results))
+    return jsonify({"data": results})
+
+@app.route('/api/send-funds', methods=['POST'])
+def send_funds():
+    data = request.get_json()
+    username = data.get('username')
+    recepient = data.get('recepient')
+    amount = data.get('amount')
+    note = data.get('note')
+
+    now = datetime.now()
+    if not check_username_exists(recepient):
+        return jsonify({'error': 'UserID doesnt exist'}), 409
+    
+    # Retrieve the current hashed password from the database for the user
+    cursor.execute(f'SELECT Balance FROM Account WHERE UserId = "{username}"')
+    username_oldbal = cursor.fetchone()[0]
+
+    cursor.execute(f'SELECT Balance FROM Account WHERE UserId = "{username}"')
+    recepient_oldbal = cursor.fetchone()[0]
+
+    # Insert account into the database (example logic)
+    if username and recepient:
+        cursor.execute('INSERT INTO Transaction (TransactionID, SenderID, ReceiverID, Amount, DateTime, Description) '
+            'VALUES (%s, %s, %s, %s, %s, %s)', 
+            (username, username, recepient, amount, now.strftime('%Y-%m-%d %H:%M:%S'), note))
+        return jsonify({'message': 'Account updated successfully'}), 201
+    return jsonify({'error': 'Invalid data'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
