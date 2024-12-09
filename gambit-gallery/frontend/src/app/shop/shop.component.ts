@@ -28,6 +28,8 @@ export class ShopComponent implements OnInit{
           })
         );
       });
+
+      console.log(this.skins)
     }
 
     goBack(): void {

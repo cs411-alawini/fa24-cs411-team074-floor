@@ -26,5 +26,9 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/get_skins`)
   }
   
+  getRooms(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get_rooms`)
+  }
+
 }
 
