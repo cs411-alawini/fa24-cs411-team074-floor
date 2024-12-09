@@ -333,8 +333,7 @@ CREATE PROCEDURE getUserActivity(userid VARCHAR(255)) BEGIN
     GROUP BY UserId, Date) AS t
     ON g.UserID = t.UserID AND g.Date = t.Date
     WHERE UserID = @userid
-    ORDER BY g.Date
-LIMIT 15;
+    ORDER BY g.Date;
 END//
 ```
 

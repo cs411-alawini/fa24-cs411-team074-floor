@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
-    user="root", database="gambit_gallery", #password="root"
+    user="root", database="gambit_gallery", password="root"
     #user="root", database="gambit_gallery"
 )
 # connection = mysql.connector.connect(
@@ -21,75 +21,9 @@ connection = connection.MySQLConnection(
 # )
 cursor = connection.cursor()
 
-queries = {
-    "UP": """
-SELECT UserID, action, AVG(balance) AS AvgBalance, SUM(CASE WHEN balance > 0 THEN 1 ELSE 0 END) / COUNT(balance) AS WinRate
-FROM 
-    (SELECT UserID, balance, action_pre AS action
-        FROM GameHistory
-        UNION ALL
-        SELECT UserID, balance, action_flop AS action
-        FROM GameHistory
-        UNION ALL
-        SELECT UserID, balance, action_turn AS action
-        FROM GameHistory
-        UNION ALL
-        SELECT UserID,  balance, action_river AS action
-        FROM GameHistory) AS T
-GROUP BY action, UserID
-ORDER BY UserID, WinRate DESC""",
-    "CPW": """
-SELECT UserID, Image
-FROM (SELECT * FROM Account WHERE RoomID = 0) AS UserInRooms
-JOIN Skin ON SkinID = CurrentSkin""",
-    "AT": """
-SELECT g.UserID, g.Date, g.GameCount, t.NonGameCount, g.GameCount + t.NonGameCount AS TotalActivity
-FROM 
-    (SELECT UserID, DATE(DateTime) AS Date, COUNT(*) AS GameCount
-     FROM GameHistory
-     GROUP BY UserID, DATE(DateTime)) AS g
-JOIN 
-    (SELECT DISTINCT UserID, Date, COUNT(*) AS NonGameCount
-     FROM 
-((SELECT SenderID AS UserID,  DATE(DateTime) AS Date 
-FROM Transaction 
-WHERE SenderID <> 'TEXAS_HOLDEM')
- UNION ALL 
-(SELECT ReceiverID AS UserID,  DATE(DateTime) AS Date 
-FROM Transaction 
-WHERE ReceiverID <> 'TEXAS_HOLDEM' )) AS CombinedTransactions
-    GROUP BY UserId, Date) AS t
-ON g.UserID = t.UserID AND g.Date = t.Date
-ORDER BY g.Date""",
-    "GCF": """
-SELECT TransactionID, SenderID, ReceiverID, Amount, CONVERT(DateTime, DATE) AS TransactionDate
-FROM Transaction
-WHERE SenderID = 'TEXAS_HOLDEM' OR ReceiverID = 'TEXAS_HOLDEM'
-GROUP BY TransactionDate, TransactionID, SenderID, ReceiverID, Amount""",
-    "RS": """
-SELECT 
-    UserID,
-    SUM(CASE WHEN balance > 0 THEN 1 ELSE 0 END) AS Positive,
-    SUM(CASE WHEN balance < 0 THEN 1 ELSE 0 END) AS Negative,
-    SUM(CASE WHEN balance = 0 THEN 1 ELSE 0 END) AS Zero
-FROM GameHistory
-WHERE  handID IN ( SELECT handID 
-FROM GameHistory g 
-WHERE g.UserID LIKE "00021ae5")
-GROUP BY UserID""",
-}
-
-
 @app.route("/api/hello", methods=["GET"])
 def hello():
     return jsonify({"message": "Hello from Flask!"})
-
-
-@app.route("/api/query/<q>", methods=["GET"])
-def query(q):
-    cursor.execute(queries[q])
-    return jsonify({"query": cursor.fetchall()})
-
 
 @app.route("/api/get_skins")
 def get_skins():
@@ -328,33 +262,6 @@ def check_username_exists(username):
     else:
         return True
     
-@app.route('/api/get-user-performance', methods=['POST'])
-def get_user_performance():
-    data = request.get_json()
-    username = data.get('username')
-
-    # Check if the username exists
-    if not check_username_exists(username):
-        return jsonify({'error': 'User not found'}), 404
-    
-    # Call the stored procedure with the correct parameter
-    cursor.callproc('getUserPerformance', [username])
-    
-    # Fetch and process the result
-    results = []
-    for result in cursor.stored_results():
-        results.extend(result.fetchall())  # Flatten results if it's a multiple-row result
-
-    print(str(results))
-    print("kmskmskmskms")
-    # Prepare the response (if the result is empty, return an empty list)
-    if not results:
-        return jsonify({"data": []})
-
-    # Return the results in JSON format
-    print(str(results))
-    return jsonify({"data": results})
-
 @app.route('/api/send-funds', methods=['POST'])
 def send_funds():
     data = request.get_json()
@@ -385,20 +292,6 @@ def send_funds():
         return jsonify({'message': 'Account updated successfully'}), 201
     return jsonify({'error': 'Invalid data'}), 400
 
-@app.route('/api/get-balance', methods=['POST'])
-def get_balance():
-    data = request.get_json()
-    username = data.get('username')
-
-    cursor.execute(f'SELECT Balance From Account WHERE UserID = "{username}"')
-    balance = cursor.fetchall()
-    if balance:
-        # print(balance[0])
-        return jsonify({"balance": balance[0]}), 200
-    else:
-        return jsonify({'error': 'Invalid data'}), 400
-
-
 @app.route("/api/get-user-performance", methods=["POST"])
 def get_user_performance():
     data = request.get_json()
@@ -409,7 +302,7 @@ def get_user_performance():
         return jsonify({"error": "User not found"}), 404
 
     # Call the stored procedure with the correct parameter
-    cursor.callproc("getUserPerformance", [username])
+    cursor.callproc(f"getUserPerformance", username)
 
     # Fetch and process the result
     results = []
@@ -419,7 +312,6 @@ def get_user_performance():
         )  # Flatten results if it's a multiple-row result
 
     print(str(results))
-    print("kmskmskmskms")
     # Prepare the response (if the result is empty, return an empty list)
     if not results:
         return jsonify({"data": []})

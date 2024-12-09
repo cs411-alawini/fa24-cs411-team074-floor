@@ -33,6 +33,7 @@ constructor(private location: Location) {}
   ngOnInit(): void {
     // Fetch the data from your API
     this.getPerformance(this.username);
+    console.log(this.data)
   }
 
   displayedColumns: string[] = ['action', 'avgBalance', 'winRate'];
