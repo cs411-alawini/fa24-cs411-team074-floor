@@ -228,7 +228,7 @@ def change_password():
     
     # Retrieve the current hashed password from the database for the user
     cursor.execute(f'SELECT Pass FROM Account WHERE UserId = "{username}"')
-    stored_password = cursor.fetchone()
+    stored_password = cursor.fetchone()['Pass']
 
     if stored_password != current_password:
         return jsonify({'error': 'Wrong Password'}), 401

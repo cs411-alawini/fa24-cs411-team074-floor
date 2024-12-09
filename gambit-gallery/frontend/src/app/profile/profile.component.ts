@@ -54,15 +54,10 @@ export class ProfileComponent implements OnInit {
 
     this.http.post<any>(url, payload).subscribe(
       (response) => {
-        if (response.success) {
-          this.successMessage = 'Password changed successfully.';
-          this.errorMessage = '';
-          this.currentPassword = '';
-          this.newPassword = '';
-        } else {
-          this.errorMessage = response.message || 'Password change failed.';
-          this.successMessage = '';
-        }
+        this.successMessage = 'Password changed successfully.';
+        this.errorMessage = '';
+        this.currentPassword = '';
+        this.newPassword = '';
       },
       (error) => {
         console.error('Error during password change', error);
