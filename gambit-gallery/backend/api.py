@@ -1,13 +1,16 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from mysql.connector import connection
+import mysql.connector
 import re
+
 app = Flask(__name__)
+
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
     user="root", database="gambit_gallery", password="root"
-    # user="root", database="gambit_gallery"
+    #user="root", database="gambit_gallery"
 )
 # connection = mysql.connector.connect(
 #     host="34.41.165.201",
