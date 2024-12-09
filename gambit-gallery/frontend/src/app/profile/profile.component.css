@@ -141,3 +141,8 @@ body,
 .error-message {
   color: #ff4d4d;
 }
+
+.note {
+    margin-top: 5px;
+    font-size: 10px;
+}

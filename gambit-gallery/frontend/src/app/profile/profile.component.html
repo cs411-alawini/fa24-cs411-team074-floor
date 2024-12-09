@@ -39,7 +39,7 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class = "password-change-submit"[disabled]="!passwordForm.form.valid">Change Password</button>
+      <button type="submit" class="password-change-submit" [disabled]="!passwordForm.form.valid">Change Password</button>
     </form>
 
     <!-- Success or Error Messages -->
@@ -49,5 +49,8 @@
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
     </div>
+
+    <!-- Note under Change Password -->
+    <p class = "note">If you logged in with Google, the default password is 'floor'</p>
   </div>
 </div>

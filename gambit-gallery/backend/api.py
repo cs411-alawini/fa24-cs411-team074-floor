@@ -181,6 +181,18 @@ def create_account():
     if check_username_exists(username):
         return jsonify({'error': 'Conflict'}), 409
     
+    if username and password:
+        # hashed_password = hash_password(password)  # Implement hashing
+        cursor.execute(
+            'INSERT INTO Account (UserID, Pass, CurrentSkin, RoomID, Balance) '
+            'VALUES (%s, %s, %s, %s, %s)', 
+            (username, password, 's1', None, 0)
+        )
+        # cursor.execute(f'SELECT * FROM Account WHERE UserID = "{username}";')
+        # print(cursor.fetchone())
+        return jsonify({'message': 'Account created successfully'}), 201
+    return jsonify({'error': 'Invalid data'}), 400
+    
 @app.route('/api/create-account-oauth', methods=['POST'])
 def create_account_oauth():
     data = request.get_json()
@@ -189,7 +201,7 @@ def create_account_oauth():
     print(username)
     # check if username includes @gmail.com, error if it does because that is reserved for google Oauth
     if check_username_exists(username):
-        return jsonify({'message': 'No need to create'}), 200
+        return jsonify({'error': 'No need to create'}), 200
 
     # Insert account into the database (example logic)
     if username and password:
@@ -208,17 +220,24 @@ def create_account_oauth():
 def change_password():
     data = request.get_json()
     username = data.get('username')
-    password = data.get('password')
+    current_password = data.get('currentPassword')
+    new_password = data.get('newPassword')
     
     if not check_username_exists(username):
         return jsonify({'error': 'Conflict'}), 409
+    
+    # Retrieve the current hashed password from the database for the user
+    cursor.execute(f'SELECT Pass FROM Account WHERE UserId = "{username}"')
+    stored_password = cursor.fetchone()
 
+    if stored_password != current_password:
+        return jsonify({'error': 'Wrong Password'}), 401
+    
     # Insert account into the database (example logic)
-    if username and password:
-        
+    if username and stored_password == current_password:
         # hashed_password = hash_password(password)  # Implement hashing
-        cursor.execute(f'UPDATE Account SET Pass = "{password}" WHERE UserId = "{username}";')
-        return jsonify({'message': 'Account created successfully'}), 201
+        cursor.execute(f'UPDATE Account SET Pass = "{new_password}" WHERE UserId = "{username}";')
+        return jsonify({'message': 'Account updated successfully'}), 201
     return jsonify({'error': 'Invalid data'}), 400
 
 

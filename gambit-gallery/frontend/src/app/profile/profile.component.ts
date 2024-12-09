@@ -66,8 +66,14 @@ export class ProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Error during password change', error);
-        this.errorMessage = 'There was an error changing your password. Please try again.';
         this.successMessage = '';
+        switch(error.status) {
+          case 401:
+            this.errorMessage = 'That is not the correct Password.';
+            break;
+          default: 
+            this.errorMessage = 'There was an error changing your password. Please try again.';
+        }
       }
     );
   }
