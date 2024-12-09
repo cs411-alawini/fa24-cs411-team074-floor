@@ -1,268 +1,268 @@
 /* Shop Container Styling */
 .shop-page.shop-container {
-  margin: 0;
-  padding: 0;
-  width: 100%; /* Full width */
-  height: 100vh; /* Full viewport height */
-  background-color: #1a1a1a; /* Dark black background */
-  display: flex;
-  flex-direction: column; /* Stack header and other elements vertically */
-  align-items: center;
-  justify-content: flex-start; /* Align items to the top */
-  font-family: Arial, sans-serif;
-  position: relative; /* Establish a positioning context */
-}
-
-/* Central Header Logo */
-.shop-page.shop-container .central-header {
-  margin-top: 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-}
-
-.shop-page.shop-container .central-header h1 {
-  font-size: calc(2.5rem + 1.5vw);
-  color: #f5f5f1;
-  font-family: 'Bahiana', serif;
-  margin: 0;
-}
-
-.shop-page.shop-container .central-header:hover {
-  transform: scale(1.05);
-}
-
-/* Back Button Styling */
-.shop-page.shop-container .back-button {
-  position: fixed; /* Top-left corner */
-  top: 20px;
-  left: 20px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.shop-page.shop-container .back-button img {
-  width: 30px;
-  height: 30px;
-  opacity: 0.6;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.shop-page.shop-container .back-button img:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.skins-scroll-container {
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Prevent vertical overflow */
-  gap: 15px; /* Space between cards */
-  padding: 20px; /* Increased padding for better spacing */
-  width: 50%; /* Reduced width to prevent overlap with 'Your Cart' */
-  max-width: 1000px; /* Limit maximum width */
-  margin: 100px auto; /* Add space at the top and center horizontally */
-  height: 300px; /* Fixed height for the container */
-  background-color: #2a2a2a; /* Background color for the scrollable area */
-  border: 1px solid #333; /* Border for better visibility */
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  position: relative;
-  left: -70px; /* Shift the container to the left */
-}
-/* Hide the vertical scrollbar */
-.skins-scroll-container::-webkit-scrollbar {
-  height: 10px; /* Horizontal scrollbar height */
-  background-color: #444; /* Scrollbar track color */
-}
-
-.skins-scroll-container::-webkit-scrollbar-thumb {
-  background-color: #888; /* Scrollbar thumb color */
-  border-radius: 4px;
-}
-
-.skins-scroll-container::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Darker on hover */
-}
-
-/* Individual Card Styling */
-.skin-card {
-  min-width: 180px; /* Fixed card width */
-  max-width: 180px; /* Uniform size for cards */
-  height: 250px; /* Fixed height for cards */
-  flex-shrink: 0; /* Prevent cards from shrinking */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between; /* Space out the content inside the card */
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.skin-card img {
-  width: 80%; /* Adjusted to prevent stretching */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.skin-card .skin-details h3 {
-  margin: 5px 0;
-  font-size: 1rem;
-  color: #333;
-  text-align: center;
-}
-
-/* Add to Cart Button Styling */
-.add-to-cart-button {
-  background-color: #28a745; /* Green background */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.add-to-cart-button:hover {
-  background-color: #218838; /* Darker green on hover */
-  transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-.add-to-cart-button:active {
-  background-color: #1e7e34; /* Even darker green when clicked */
-  transform: scale(0.95); /* Slightly shrink on click */
-}
-
-/* Cart Section Styling */
-.shop-page.shop-container .cart-section {
-  position: fixed;
-  top: 100px; /* Adjust position to fit with the main container */
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 20%; /* Restrict width for the cart section */
-  height: calc(100vh - 150px); /* Leave space for header */
-  overflow-y: auto; /* Allow vertical scrolling */
-  background-color: #2a2a2a;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-/* Scrollbar Styling */
-.shop-page.shop-container .cart-section::-webkit-scrollbar {
-  width: 8px;
-}
-
-.shop-page.shop-container .cart-section::-webkit-scrollbar-thumb {
-  background-color: #888; /* Scrollbar thumb color */
-  border-radius: 4px;
-}
-
-.shop-page.shop-container .cart-section::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Darker on hover */
-}
-
-/* Cart Label Styling */
-.shop-page.shop-container .cart-label {
-  font-size: calc(1rem + 0.5vw);
-  color: #f5f5f1;
-  font-family: 'Bahiana', serif;
-  text-align: center;
-  margin-top: 20px; /* Add some space from the top */
-}
-
-/* Vertical Line Styling */
-.shop-page.shop-container .cart-line {
-  width: 2px;              /* Thickness of the line */
-  height: 100vh;           /* Full viewport height */
-  background-color: #ffffff; /* Color of the line (white in this case) */
-  position: fixed;         /* Fixed to viewport */
-  top: 0;                  /* Start from the very top */
-  right: 200px;            /* Position it near the checkout button */
-  z-index: 5;              /* Ensure it doesn't overlap with other elements */
-  pointer-events: none;    /* Prevent it from interfering with user interactions */
-}
-
-/* Vertical Line Styling */
-.shop-page.shop-container .cart-items {
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* Space between cart items */
-  width: 100%;
-}
-
-.cart-item {
-  display: flex;
-  justify-content: space-between; /* Space between text and remove button */
-  align-items: center;
-  padding: 5px;
-  background-color: transparent; /* Remove background */
-  border: none; /* Remove borders */
-  font-size: 0.9rem;
-  color: #f5f5f1; /* White text for better readability */
-}
-
-.cart-item span {
-  margin-right: auto; /* Align text to the left */
-}
-
-.remove-from-cart-button {
-  background-color: transparent; /* Transparent background for minimal styling */
-  color: #dc3545; /* Red text for the 'x' button */
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.remove-from-cart-button:hover {
-  color: #c82333; /* Darker red on hover */
-}
-
-/* Checkout Button Styling */
-.shop-page.shop-container .checkout-button {
-  margin-top: 30px; /* Space between the label and the button */
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: opacity 0.3s, transform 0.3s;
-}
-
-.shop-page.shop-container .checkout-button img {
-  width: 140px;
-  height: 80px;
-  opacity: 1;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.shop-page.shop-container .checkout-button img:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* Disabled Checkout Button */
-.checkout-button.disabled {
-  cursor: not-allowed; /* Prevent pointer interactions */
-  opacity: 0.4; /* Dim the button */
-  pointer-events: none; /* Disable interactions */
-}
-
-.checkout-button.disabled img {
-  transform: none; /* No hover effect */
-}
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Full width */
+    height: 100vh; /* Full viewport height */
+    background-color: #1a1a1a; /* Dark black background */
+    display: flex;
+    flex-direction: column; /* Stack header and other elements vertically */
+    align-items: center;
+    justify-content: flex-start; /* Align items to the top */
+    font-family: Arial, sans-serif;
+    position: relative; /* Establish a positioning context */
+  }
+  
+  /* Central Header Logo */
+  .shop-page.shop-container .central-header {
+    margin-top: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .shop-page.shop-container .central-header h1 {
+    font-size: calc(2.5rem + 1.5vw);
+    color: #f5f5f1;
+    font-family: 'Bahiana', serif;
+    margin: 0;
+  }
+  
+  .shop-page.shop-container .central-header:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Back Button Styling */
+  .shop-page.shop-container .back-button {
+    position: fixed; /* Top-left corner */
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .shop-page.shop-container .back-button img {
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .shop-page.shop-container .back-button img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  .skins-scroll-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Prevent vertical overflow */
+    gap: 15px; /* Space between cards */
+    padding: 20px; /* Increased padding for better spacing */
+    width: 50%; /* Reduced width to prevent overlap with 'Your Cart' */
+    max-width: 1000px; /* Limit maximum width */
+    margin: 100px auto; /* Add space at the top and center horizontally */
+    height: 300px; /* Fixed height for the container */
+    background-color: #2a2a2a; /* Background color for the scrollable area */
+    border: 1px solid #333; /* Border for better visibility */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+    left: -70px; /* Shift the container to the left */
+  }
+  /* Hide the vertical scrollbar */
+  .skins-scroll-container::-webkit-scrollbar {
+    height: 10px; /* Horizontal scrollbar height */
+    background-color: #444; /* Scrollbar track color */
+  }
+  
+  .skins-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888; /* Scrollbar thumb color */
+    border-radius: 4px;
+  }
+  
+  .skins-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker on hover */
+  }
+  
+  /* Individual Card Styling */
+  .skin-card {
+    min-width: 180px; /* Fixed card width */
+    max-width: 180px; /* Uniform size for cards */
+    height: 250px; /* Fixed height for cards */
+    flex-shrink: 0; /* Prevent cards from shrinking */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Space out the content inside the card */
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .skin-card img {
+    width: 80%; /* Adjusted to prevent stretching */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .skin-card .skin-details h3 {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Add to Cart Button Styling */
+  .add-to-cart-button {
+    background-color: #28a745; /* Green background */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .add-to-cart-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  .add-to-cart-button:active {
+    background-color: #1e7e34; /* Even darker green when clicked */
+    transform: scale(0.95); /* Slightly shrink on click */
+  }
+  
+  /* Cart Section Styling */
+  .shop-page.shop-container .cart-section {
+    position: fixed;
+    top: 100px; /* Adjust position to fit with the main container */
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%; /* Restrict width for the cart section */
+    height: calc(100vh - 150px); /* Leave space for header */
+    overflow-y: auto; /* Allow vertical scrolling */
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Scrollbar Styling */
+  .shop-page.shop-container .cart-section::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .shop-page.shop-container .cart-section::-webkit-scrollbar-thumb {
+    background-color: #888; /* Scrollbar thumb color */
+    border-radius: 4px;
+  }
+  
+  .shop-page.shop-container .cart-section::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker on hover */
+  }
+  
+  /* Cart Label Styling */
+  .shop-page.shop-container .cart-label {
+    font-size: calc(1rem + 0.5vw);
+    color: #f5f5f1;
+    font-family: 'Bahiana', serif;
+    text-align: center;
+    margin-top: 20px; /* Add some space from the top */
+  }
+  
+  /* Vertical Line Styling */
+  .shop-page.shop-container .cart-line {
+    width: 2px;              /* Thickness of the line */
+    height: 100vh;           /* Full viewport height */
+    background-color: #ffffff; /* Color of the line (white in this case) */
+    position: fixed;         /* Fixed to viewport */
+    top: 0;                  /* Start from the very top */
+    right: 200px;            /* Position it near the checkout button */
+    z-index: 5;              /* Ensure it doesn't overlap with other elements */
+    pointer-events: none;    /* Prevent it from interfering with user interactions */
+  }
+  
+  /* Vertical Line Styling */
+  .shop-page.shop-container .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between cart items */
+    width: 100%;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between; /* Space between text and remove button */
+    align-items: center;
+    padding: 5px;
+    background-color: transparent; /* Remove background */
+    border: none; /* Remove borders */
+    font-size: 0.9rem;
+    color: #f5f5f1; /* White text for better readability */
+  }
+  
+  .cart-item span {
+    margin-right: auto; /* Align text to the left */
+  }
+  
+  .remove-from-cart-button {
+    background-color: transparent; /* Transparent background for minimal styling */
+    color: #dc3545; /* Red text for the 'x' button */
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .remove-from-cart-button:hover {
+    color: #c82333; /* Darker red on hover */
+  }
+  
+  /* Checkout Button Styling */
+  .shop-page.shop-container .checkout-button {
+    margin-top: 30px; /* Space between the label and the button */
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  
+  .shop-page.shop-container .checkout-button img {
+    width: 140px;
+    height: 80px;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .shop-page.shop-container .checkout-button img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  /* Disabled Checkout Button */
+  .checkout-button.disabled {
+    cursor: not-allowed; /* Prevent pointer interactions */
+    opacity: 0.4; /* Dim the button */
+    pointer-events: none; /* Disable interactions */
+  }
+  
+  .checkout-button.disabled img {
+    transform: none; /* No hover effect */
+  }

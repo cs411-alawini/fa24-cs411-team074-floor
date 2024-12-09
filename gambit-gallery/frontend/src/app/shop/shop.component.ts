@@ -1,83 +1,75 @@
-import { ApiService } from './../services/api.service';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router'; 
 import { Location, CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CartService } from '../cart.service';
+import { FormsModule } from '@angular/forms'; // <-- Add this import
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [HttpClientModule, RouterModule, CommonModule],
+  imports: [HttpClientModule, RouterModule, CommonModule, FormsModule], // <-- Add FormsModule here
   templateUrl: './shop.component.html',
-  styleUrl: './shop.component.css',
+  styleUrls: ['./shop.component.css'] // <-- Make sure it's styleUrls (plural)
 })
 export class ShopComponent implements OnInit {
-  skins: Array<{ SkinID: string; Image: string; Description: string }> = [];
-  cart: Array<{ SkinID: string; Image: string; Description: string }> = [];
+    skins: Array<{ SkinID: string; Image: string; Description: string }> = []; 
+    cart: Array<{ SkinID: string; Image: string; Description: string }> = [];
+    searchTerm: string = ''; // <-- Add this property for the search term
 
-  constructor(
-    private apiService: ApiService,
-    private cartService: CartService,
-    private router: Router,
-    private location: Location,
-    private http: HttpClient
-  ) {}
+    constructor(
+      private cartService: CartService, 
+      private router: Router, 
+      private location: Location, 
+      private http: HttpClient
+    ) {}
 
-  ngOnInit(): void {
-    this.fetchSkins();
-  }
+    ngOnInit(): void {
+      this.fetchSkins();
+    }
 
-  fetchSkins(): void {
-    this.apiService.getSkins().subscribe(
-      (response) => {
-        this.skins = response.result.map(
-          ([SkinID, Image, Description]: [string, string, string]) => ({
-            SkinID: SkinID,
-            Image: Image,
-            Description: Description,
-          })
-        );
-      },
-      (error) => {
-        console.error('Error fetching skins:', error);
+    fetchSkins(): void {
+        this.skins = [
+            {SkinID: "s0", Image: "bruh", Description: "abc"},
+            {SkinID: "s1", Image: "bruh", Description: "bcd"},
+            {SkinID: "s2", Image: "bruh", Description: "cde"},
+            {SkinID: "s3", Image: "bruh", Description: "def"},
+            {SkinID: "s4", Image: "bruh", Description: "efg"},
+        ];
+    }
+
+    filteredSkins(): Array<{ SkinID: string; Image: string; Description: string }> {
+      if (!this.searchTerm) {
+        return this.skins;
       }
-    );
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
-  checkout() {
-    if (this.cart.length > 0) {
-      this.cartService.setCart(this.cart);
-      this.router.navigate(['/complete-shop-purchase']);
+      const lowerTerm = this.searchTerm.toLowerCase();
+      return this.skins.filter(skin => 
+        skin.Description.toLowerCase().includes(lowerTerm)
+      );
     }
-  }
 
-  addToCart(skin: {
-    SkinID: string;
-    Image: string;
-    Description: string;
-  }): void {
-    //console.log('Add to Cart Clicked:', skin);
-    if (!this.cart.some((item) => item.SkinID === skin.SkinID)) {
-      this.cart.push(skin);
-      //console.log('Cart Updated:', this.cart);
+    goBack(): void {
+      this.location.back();
     }
-  }
 
-  removeFromCart(skin: {
-    SkinID: string;
-    Image: string;
-    Description: string;
-  }): void {
-    this.cart = this.cart.filter((item) => item.SkinID !== skin.SkinID);
-    //console.log('Cart Updated:', this.cart);
-  }
+    checkout() {
+      if (this.cart.length > 0) {
+        this.cartService.setCart(this.cart);
+        this.router.navigate(['/complete-shop-purchase']);
+      }
+    }
 
-  isInCart(skinID: string): boolean {
-    return this.cart.some((item) => item.SkinID === skinID);
-  }
+    addToCart(skin: { SkinID: string; Image: string; Description: string }): void {
+      if (!this.cart.some((item) => item.SkinID === skin.SkinID)) {
+        this.cart.push(skin);
+      }
+    }
+
+    removeFromCart(skin: { SkinID: string; Image: string; Description: string }): void {
+      this.cart = this.cart.filter((item) => item.SkinID !== skin.SkinID);
+    }
+
+    isInCart(skinID: string): boolean {
+      return this.cart.some((item) => item.SkinID === skinID);
+    }
 }
