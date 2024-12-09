@@ -1,0 +1,7 @@
+<div *ngIf="username; else noUsername">
+  <h2>Welcome, {{ username }}!</h2>
+</div>
+
+<ng-template #noUsername>
+  <h2>Welcome, Guest!</h2>
+</ng-template>

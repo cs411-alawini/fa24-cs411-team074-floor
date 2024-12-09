@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [/* your components */],
@@ -16,9 +17,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSortModule,
     BrowserModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FormsModule
   ],
   bootstrap: [/* your main component */]
 })
 export class AppModule { }
-

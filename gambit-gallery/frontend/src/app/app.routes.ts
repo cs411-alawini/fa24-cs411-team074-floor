@@ -9,6 +9,8 @@ import { ShopComponent } from './shop/shop.component';
 import { PokerGameComponent } from './poker-game/poker-game.component';
 import { RoomsPopupComponent } from './rooms-popup/rooms-popup.component';
 import { CompleteShopPurchaseComponent } from './complete-shop-purchase/complete-shop-purchase.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Home route
@@ -18,6 +20,8 @@ export const routes: Routes = [
   { path: 'shop', component: ShopComponent},
   { path: 'complete-shop-purchase', component: CompleteShopPurchaseComponent},
   { path: 'rooms', component: RoomsPopupComponent},
-  {path: 'poker-game/:roomCode', component:PokerGameComponent},
+  { path: 'poker-game/:roomCode', component:PokerGameComponent},
+  { path: 'create-account', component: CreateAccountComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: '' } // Wildcard route redirects to Home
 ];
