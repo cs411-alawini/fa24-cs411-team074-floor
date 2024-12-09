@@ -9,15 +9,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
-<<<<<<< HEAD
-    user="root",
-    database="gambit_gallery",
-    password="root",
-    # user="root", database="gambit_gallery"
-=======
     user="root", database="gambit_gallery", password="root"
     #user="root", database="gambit_gallery"
->>>>>>> main
 )
 # connection = mysql.connector.connect(
 #     host="34.41.165.201",
