@@ -33,7 +33,7 @@ export class ShowRoomsComponent implements OnInit{
         ([RoomID, Log, ChatLog]: [String, String, String]) => ({
           RoomID,
           Log,
-          ChatLog,
+          ChatLog
         })
       ); 
     });

@@ -10,18 +10,23 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
     user="root", database="gambit_gallery", password="root"
-    # user="root", database="gambit_gallery"
+    #user="root", database="gambit_gallery"
 )
 
-# CORS(app)
-# connection = mysql.connector.connect(
-#     host="34.41.165.201",
-#     user="root",
-#     password="GambitGallery!",
-#     database="gambit_gallery",
-#     connection_timeout = 10
-# )
-cursor = connection.cursor(dictionary = True)
+#cursor = connection.cursor(dictionary = True)
+
+'''
+CORS(app)
+connection = mysql.connector.connect(
+     host="34.41.165.201",
+     user="root",
+     password="GambitGallery!",
+     database="gambit_gallery",
+     connection_timeout = 10
+ )
+'''
+
+cursor = connection.cursor()
 
 queries = {
     "UP": '''
