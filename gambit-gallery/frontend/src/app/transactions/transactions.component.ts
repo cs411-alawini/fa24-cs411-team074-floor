@@ -6,8 +6,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
-
 import { ApiService } from '../services/api.service';
+import { UserService } from '../services/user.service';
+
+
 
 @Component({
   selector: 'app-transactions',
@@ -19,6 +21,7 @@ import { ApiService } from '../services/api.service';
 })
 export class TransactionsComponent {
   constructor(
+    private userService: UserService,
     private apiService: ApiService,
     private router: Router,
     private location: Location
@@ -32,7 +35,7 @@ export class TransactionsComponent {
   }
 
   fetchData(): void {
-    this.apiService.getTransaction('TEXAS_HOLDEM').subscribe((data) => {
+    this.apiService.getTransaction(this.userService.getUsername()).subscribe((data) => {
       this.dataSource.data = data;
     });
     // console.log(this.dataSource.data);

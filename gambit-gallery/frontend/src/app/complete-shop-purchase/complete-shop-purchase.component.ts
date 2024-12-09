@@ -18,7 +18,6 @@ export class CompleteShopPurchaseComponent implements OnInit{
 
   ngOnInit() {
     this.cart = this.cartService.getCart();
-    //console.log('Cart data received:', this.cart);
   }
 
   goBack(): void {

@@ -1,16 +1,23 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from mysql.connector import connection
+import mysql.connector
 import re
 
 app = Flask(__name__)
+
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
+<<<<<<< HEAD
     user="root",
     database="gambit_gallery",
     password="root",
     # user="root", database="gambit_gallery"
+=======
+    user="root", database="gambit_gallery", password="root"
+    #user="root", database="gambit_gallery"
+>>>>>>> main
 )
 # connection = mysql.connector.connect(
 #     host="34.41.165.201",
@@ -191,17 +198,10 @@ def login():
     # cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
     user = cursor.fetchone()
+    t_pass = user[1]
 
-    if (
-        user and user[1] == password
-    ):  # Here, replace with hash comparison for production
-        return jsonify(
-            {
-                "success": True,
-                "message": "Login successful",
-                "user": {"name": user[0], "picture": ""},
-            }
-        )
+    if user and t_pass == password:  # Here, replace with hash comparison for production
+        return jsonify({"success": True, "message": "Login successful", "user": {"name": user[0], "picture": ''}})
     else:
         return jsonify({"error": "Invalid username or password."}), 401
 

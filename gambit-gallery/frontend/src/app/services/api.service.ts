@@ -23,8 +23,20 @@ export class ApiService {
   }
 
   getSkins(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/get_skins/`)
+    return this.http.get(`${this.apiUrl}/get_skins`)
   }
   
+  getRooms(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get_rooms`)
+  }
+
+  createRoom(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/create_room`)
+  }
+
+  deleteRoom(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/delete_room`)
+  }
+
 }
 
