@@ -161,9 +161,10 @@ def login():
     # cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
     user = cursor.fetchone()
+    t_pass = user[1]
 
-    if user and user['Pass'] == password:  # Here, replace with hash comparison for production
-        return jsonify({"success": True, "message": "Login successful", "user": {"name": user['UserID'], "picture": ''}})
+    if user and t_pass == password:  # Here, replace with hash comparison for production
+        return jsonify({"success": True, "message": "Login successful", "user": {"name": user[0], "picture": ''}})
     else:
         return jsonify({"error": "Invalid username or password."}), 401
     
