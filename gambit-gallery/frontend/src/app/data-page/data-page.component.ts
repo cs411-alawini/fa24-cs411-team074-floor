@@ -1,3 +1,4 @@
+import { ApiService } from './../services/api.service';
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
@@ -20,40 +21,30 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./data-page.component.css'],
 })
 export class DataPageComponent {
-constructor(private location: Location) {}
+constructor(private api: ApiService, private location: Location) {}
   private userService = inject(UserService); // Inject the UserService
   username = this.userService.getUsername()
   private http = inject(HttpClient);
 
-  url = 'http://127.0.0.1:5000/api/get-user-performance';
-  payload = {
-    username: this.username
-  };
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Fetch the data from your API
-    this.getPerformance(this.username);
-    console.log(this.data)
+    this.user_performance.data = await this.api.getUserPerformance(this.username);
+    this.user_activity.data = await this.api.getUserActivity(this.username);
   }
 
-  displayedColumns: string[] = ['action', 'avgBalance', 'winRate'];
-  data = []
-  getPerformance(username: string): void {
-    // Define the payload with the username
-    const payload = { username };
-  
-    // Make the POST request to the API
-    this.http.post<any>(this.url, payload).subscribe(
-      (response) => {
-        // Assuming the data is inside the 'data' property as per your API response
-        this.data = response.data; 
-      },
-      (error) => {
-        console.error('Error during getting data', error);
-      }
-    );
+  // displayedColumns: string[] = ['action', 'avgBalance', 'winRate'];
+  user_performance = {
+    columns: ['action', 'avgBalance', 'winRate'],
+    data: [],
   }
+  // getPerformance(username: string): void {
+  //   this.data = await this.api.getUserPerformance(username);
+  // }
   
+  user_activity = {
+    columns: ["Date", "GameCount", "NonGameCount", "TotalActivity"],
+    data: [],
+  }
 
   dataSourceMoves = [
     { action: 'Raise', balance: '+200', winRate: '75%' },

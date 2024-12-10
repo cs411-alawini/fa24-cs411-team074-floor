@@ -1,114 +1,124 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap"
+  rel="stylesheet"
+/>
 <div class="data-page">
-    <!-- Back Button -->
-    <button class="back-button" (click)="goBack()" aria-label="Back to Previous Page">
-      <img src="assets/images/back_button.png" alt="Back Icon" />
-    </button>
-   
-    <!-- Central Logo -->
-    <header class="central-logo">
-        <h1>{{username}}'s Statistics</h1>
-        <h2>Move-Level Stats</h2>
-        <h3>Game Histories</h3>
-      </header>
+  <!-- Back Button -->
+  <button
+    class="back-button"
+    (click)="goBack()"
+    aria-label="Back to Previous Page"
+  >
+    <img src="assets/images/back_button.png" alt="Back Icon" />
+  </button>
 
-<div class="table-wrapper">
-  <div class="performance-container">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>User Performance</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-table [dataSource]="data" class="mat-elevation-z8">
-          <!-- Action Column -->
-          <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.action }} </mat-cell>
-          </ng-container>
-  
-          <!-- AvgBalance Column -->
-          <ng-container matColumnDef="avgBalance">
-            <mat-header-cell *matHeaderCellDef> Average Balance </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.avgBalance | currency }} </mat-cell>
-          </ng-container>
-  
-          <!-- WinRate Column -->
-          <ng-container matColumnDef="winRate">
-            <mat-header-cell *matHeaderCellDef> Win Rate </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{ element.winRate | percent}} </mat-cell>
-          </ng-container>
-  
-          <!-- Header and Row Definitions -->
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
+  <!-- Central Logo -->
+  <header class="central-logo">
+    <h1>{{ username }}'s Statistics</h1>
+    <!-- <h2>Move-Level Stats</h2>
+    <h3>Game Histories</h3> -->
+  </header>
+
+  <div class="table-wrapper">
+    <div class="performance-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>User Performance</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-table
+            [dataSource]="user_performance.data"
+            class="mat-elevation-z8"
+          >
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.action }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- AvgBalance Column -->
+            <ng-container matColumnDef="avgBalance">
+              <mat-header-cell *matHeaderCellDef>
+                Average Balance
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.avgBalance | currency }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- WinRate Column -->
+            <ng-container matColumnDef="winRate">
+              <mat-header-cell *matHeaderCellDef> Win Rate </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.winrate | percent }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Header and Row Definitions -->
+            <mat-header-row
+              *matHeaderRowDef="user_performance.columns"
+            ></mat-header-row>
+            <mat-row
+              *matRowDef="let row; columns: user_performance.columns"
+            ></mat-row>
+          </mat-table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
     <!-- Move Level Stats Container -->
-<div class="moves-stats-container">
-    <!-- Material Table -->
-    <mat-table [dataSource]="dataSourceMoves" class="mat-elevation-z8 moves-table">
-      <!-- Action Column -->
-      <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.action}} </mat-cell>
-      </ng-container>
-  
-      <!-- Balance Column -->
-      <ng-container matColumnDef="balance">
-        <mat-header-cell *matHeaderCellDef> Balance Won/Lost </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.balance}} </mat-cell>
-      </ng-container>
-  
-      <!-- Win Rate Column -->
-      <ng-container matColumnDef="winRate">
-        <mat-header-cell *matHeaderCellDef> Win Rate </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.winRate}} </mat-cell>
-      </ng-container>
-  
-      <!-- Header and Row Definitions -->
-      <mat-header-row *matHeaderRowDef="movesColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: movesColumns;"></mat-row>
-    </mat-table>
-  </div>
-  
-  <!-- Game History Table Container -->
-  <div class="game-history-container">
-    <!-- Material Table -->
-    <mat-table [dataSource]="dataSourceHistory" class="mat-elevation-z8 history-table">
-      <!-- User Column -->
-      <ng-container matColumnDef="user">
-        <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.user}} </mat-cell>
-      </ng-container>
-  
-      <!-- Positive Column -->
-      <ng-container matColumnDef="positive">
-        <mat-header-cell *matHeaderCellDef> Positive </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.pos}} </mat-cell>
-      </ng-container>
-  
-      <!-- Negative Column -->
-      <ng-container matColumnDef="negative">
-        <mat-header-cell *matHeaderCellDef> Negative </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.neg}} </mat-cell>
-      </ng-container>
-  
-      <!-- Zero Column -->
-      <ng-container matColumnDef="zero">
-        <mat-header-cell *matHeaderCellDef> Zero </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.zero}} </mat-cell>
-      </ng-container>
-  
-      <!-- Header and Row Definitions -->
-      <mat-header-row *matHeaderRowDef="historyColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: historyColumns;"></mat-row>
-    </mat-table>
+    <div class="moves-stats-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>User Performance</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-table
+            [dataSource]="user_activity.data"
+            class="mat-elevation-z8 moves-table"
+          >
+          <!-- Material Table -->
+    
+            <ng-container matColumnDef="Date">
+              <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.date }} </mat-cell>
+            </ng-container>
+    
+            <!-- Balance Column -->
+            <ng-container matColumnDef="GameCount">
+              <mat-header-cell *matHeaderCellDef> Game Count </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.gameCount }}
+              </mat-cell>
+            </ng-container>
+    
+            <!-- Win Rate Column -->
+            <ng-container matColumnDef="NonGameCount">
+              <mat-header-cell *matHeaderCellDef> Non-Game Count </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.nonGameCount }}
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="TotalActivity">
+              <mat-header-cell *matHeaderCellDef> Total Activity </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.totalActivity }}
+              </mat-cell>
+            </ng-container>
+    
+            <!-- Header and Row Definitions -->
+            <mat-header-row
+              *matHeaderRowDef="user_activity.columns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: user_activity.columns"></mat-row>
+          </mat-table>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
-  </div>
-  

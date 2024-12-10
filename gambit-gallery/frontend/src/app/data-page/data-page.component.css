@@ -12,7 +12,6 @@ body,
   font-family: Arial, sans-serif;
 }
 
-
 /* Back Button Styling */
 .data-page .back-button {
   position: fixed; /* Top-left corner */
@@ -38,168 +37,167 @@ body,
 }
 
 .data-page .central-logo {
-    margin-top: 40px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
+  margin-top: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 }
-  
+
 .data-page .central-logo h1 {
-    font-size: calc(2.5rem + 1.5vw);
-    color: #f5f5f1;
-    position: absolute;
-    font-family: 'Bahiana', serif;
-    top: 50px; 
-    left: 40%; 
+  font-size: calc(2.5rem + 1.5vw);
+  color: #f5f5f1;
+  position: absolute;
+  font-family: "Bahiana", serif;
+  top: 50px;
+  left: 40%;
 }
 
 .data-page .central-logo h2 {
-    font-size: calc(1.5rem + 1.5vw);
-    position: absolute;
-    color: #f5f5f1;
-    font-family: 'Bahiana', serif;
-    margin: 0;
-    top: 150px; 
-    left: 15%; 
-   
+  font-size: calc(1.5rem + 1.5vw);
+  position: absolute;
+  color: #f5f5f1;
+  font-family: "Bahiana", serif;
+  margin: 0;
+  top: 150px;
+  left: 15%;
 }
 
 .data-page .central-logo h3 {
-    font-size: calc(1.5rem + 1.5vw);
-    position: absolute;
-    color: #f5f5f1;
-    font-family: 'Bahiana', serif;
-    margin: 0;
-    top: 150px; 
-    left: 70%; 
-   
+  font-size: calc(1.5rem + 1.5vw);
+  position: absolute;
+  color: #f5f5f1;
+  font-family: "Bahiana", serif;
+  margin: 0;
+  top: 150px;
+  left: 70%;
 }
-  
+
 .data-page .central-logo h1:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .data-page .central-logo h2:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
-.data-page .central-logo h3:hover{
-    transform: scale(1.05)
+.data-page .central-logo h3:hover {
+  transform: scale(1.05);
 }
 
 /* Parent Container for both tables */
 .table-wrapper {
-    display: flex; /* Enable flexbox */
-    justify-content: space-between; /* Add space between the containers */
-    align-items: flex-start; /* Align items at the top */
-    gap: 190px; /* Optional: Add gap between containers */
-    width: 100%; /* Full width of the parent */
-    padding: 100px; /* Optional: Add padding around the tables */
-    box-sizing: border-box; /* Include padding in width calculations */
-  }
-
+  display: flex; /* Enable flexbox */
+  justify-content: space-between; /* Add space between the containers */
+  align-items: flex-start; /* Align items at the top */
+  gap: 190px; /* Optional: Add gap between containers */
+  width: 100%; /* Full width of the parent */
+  height: 70%; /* Full width of the parent */
+  padding: 100px; /* Optional: Add padding around the tables */
+  box-sizing: border-box; /* Include padding in width calculations */
+  overflow-y: scroll;
+}
 
 /* ALL STYLING FOR THE MOVES STATS TABLE */
 .moves-stats-container {
-    width: calc(50% - 15px); /* Adjust for the gap to fit both containers */
-    flex-shrink: 0; /* Prevent shrinking */
-    margin: 0; /* Avoid additional spacing from margins */
-    margin-left: -80px;
-    margin-bottom: 350px;
+  width: calc(50% - 15px); /* Adjust for the gap to fit both containers */
+  flex-shrink: 0; /* Prevent shrinking */
+  margin: 0; /* Avoid additional spacing from margins */
+  margin-left: -80px;
+  margin-bottom: 350px;
 }
 
 /* Styling the Moves Stats Table */
 .data-page ::ng-deep .moves-stats-container .mat-elevation-z8 {
-    display: block !important; /* Allow for width control */
-    margin-top: 20px; /* Space from the header */
-    border: 5px solid #ff5722; /* Red border */
-    border-radius: 10px;
-    width: 100% !important; /* Make table take the width of its container */
-    background-color: #f0fff0; /* Light green background */
-    color: #000000;
+  display: block !important; /* Allow for width control */
+  margin-top: 20px; /* Space from the header */
+  border: 5px solid #ff5722; /* Red border */
+  border-radius: 10px;
+  width: 100% !important; /* Make table take the width of its container */
+  background-color: #f0fff0; /* Light green background */
+  color: #000000;
 }
 
 /* Column Width Constraints for Moves Stats Table */
 .data-page ::ng-deep .moves-stats-container .mat-cell,
 .data-page ::ng-deep .moves-stats-container .mat-header-cell {
-    max-width: 150px; 
-    font-weight: bold; 
-    font-size: 3.2rem !important;
-    overflow: hidden; 
-    text-overflow: ellipsis; /* Add ellipsis for long text */
-    white-space: nowrap; /* Prevent wrapping */
+  max-width: 150px;
+  font-weight: bold;
+  font-size: 3.2rem !important;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for long text */
+  white-space: nowrap; /* Prevent wrapping */
 }
 
 /* Header Row Styling for Moves Stats Table */
 .data-page ::ng-deep .moves-stats-container .mat-header-row {
-    background-color: #4caf50; /* Green */
-    color: #ffffff;
-    font-size: 1.2rem;
-    font-weight: bold;
+  background-color: #4caf50; /* Green */
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 /* Zebra Striping for Moves Stats Table Rows */
 .data-page ::ng-deep .moves-stats-container .mat-row:nth-child(even) {
-    background-color: #e8f5e9; /* Light green */
+  background-color: #e8f5e9; /* Light green */
 }
 
 .data-page ::ng-deep .moves-stats-container .mat-row:nth-child(odd) {
-    background-color: #ffffff; /* White */
+  background-color: #ffffff; /* White */
 }
 
 .data-page ::ng-deep .moves-stats-container .mat-row:hover {
-    background-color: #c8e6c9; /* Slightly darker green on hover */
-    transition: background-color 0.3s ease;
+  background-color: #c8e6c9; /* Slightly darker green on hover */
+  transition: background-color 0.3s ease;
 }
 
 /* ALL STYLING FOR THE GAME HISTORY STATS TABLE */
 .game-history-container {
-    width: calc(50% - 15px); /* Adjust for the gap to fit both containers */
-    flex-shrink: 0; /* Prevent shrinking */
-    margin: 0; /* Avoid additional spacing from margins */
+  width: calc(50% - 15px); /* Adjust for the gap to fit both containers */
+  flex-shrink: 0; /* Prevent shrinking */
+  margin: 0; /* Avoid additional spacing from margins */
 }
 
 /* Styling the Game History Table */
 .data-page ::ng-deep .game-history-container .mat-elevation-z8 {
-    display: block !important; /* Allow for width control */
-    margin-top: 20px; /* Space from the header */
-    border: 5px solid #4caf50; /* Orange border */
-    
-    border-radius: 10px;
-    width: 100% !important; /* Make table take the width of its container */
-    background-color: #fff8f0; /* Light orange background */
-    color: #000000;
+  display: block !important; /* Allow for width control */
+  margin-top: 20px; /* Space from the header */
+  border: 5px solid #4caf50; /* Orange border */
+
+  border-radius: 10px;
+  width: 100% !important; /* Make table take the width of its container */
+  background-color: #fff8f0; /* Light orange background */
+  color: #000000;
 }
 
 /* Column Width Constraints for Game History Table */
 .data-page ::ng-deep .game-history-container .mat-cell,
 .data-page ::ng-deep .game-history-container .mat-header-cell {
-    max-width: 150px; 
-    font-weight: bold; 
-    font-size: 3.2rem !important;
-    overflow: hidden; 
-    text-overflow: ellipsis; /* Add ellipsis for long text */
-    white-space: nowrap; /* Prevent wrapping */
+  max-width: 150px;
+  font-weight: bold;
+  font-size: 3.2rem !important;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for long text */
+  white-space: nowrap; /* Prevent wrapping */
 }
 
 /* Header Row Styling for Game History Table */
 .data-page ::ng-deep .game-history-container .mat-header-row {
-    background-color: #ff5722; /* Orange */
-    color: #ffffff;
-    font-size: 1.2rem;
-    font-weight: bold;
+  background-color: #ff5722; /* Orange */
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 /* Zebra Striping for Game History Table Rows */
 .data-page ::ng-deep .game-history-container .mat-row:nth-child(even) {
-    background-color: #ffe0b2; /* Light orange */
+  background-color: #ffe0b2; /* Light orange */
 }
 
 .data-page ::ng-deep .game-history-container .mat-row:nth-child(odd) {
-    background-color: #ffffff; /* White */
+  background-color: #ffffff; /* White */
 }
 
 .data-page ::ng-deep .game-history-container .mat-row:hover {
-    background-color: #ffcc80; /* Slightly darker orange on hover */
-    transition: background-color 0.3s ease;
+  background-color: #ffcc80; /* Slightly darker orange on hover */
+  transition: background-color 0.3s ease;
 }

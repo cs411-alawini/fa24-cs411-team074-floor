@@ -9,8 +9,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
 
-
-
 @Component({
   selector: 'app-transactions',
   standalone: true,
@@ -31,14 +29,11 @@ export class TransactionsComponent {
   dataSource = new MatTableDataSource([]);
 
   ngOnInit() {
-    this.fetchData();
-  }
-
-  fetchData(): void {
-    this.apiService.getTransaction(this.userService.getUsername()).subscribe((data) => {
-      this.dataSource.data = data;
-    });
-    // console.log(this.dataSource.data);
+    this.apiService
+      .getTransaction(this.userService.getUsername())
+      .subscribe((data) => {
+        this.dataSource.data = data;
+      });
   }
 
   // Method to navigate back

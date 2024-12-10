@@ -33,12 +33,14 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
   private location = inject(Location);
   private http = inject(HttpClient);
-  private userService = inject(UserService);  // Inject the UserService
+  private userService = inject(UserService); // Inject the UserService
 
   ngOnInit() {
     const savedUsername = this.userService.getUsername();
     if (savedUsername) {
-      console.log(`User already logged in as ${savedUsername}, redirecting to profile...`);
+      console.log(
+        `User already logged in as ${savedUsername}, redirecting to profile...`
+      );
       this.router.navigate(['/profile']);
     }
   }
@@ -56,7 +58,10 @@ export class LoginComponent implements OnInit {
     const email = this.authService.getProfile()?.email; // Assuming the email is available in the profile
     if (email) {
       this.userService.setUsername(email);
-      console.log('Logged in with Google, username set as ' + this.userService.getUsername());
+      console.log(
+        'Logged in with Google, username set as ' +
+          this.userService.getUsername()
+      );
     } else {
       console.log('Failed to retrieve email from profile');
     }
@@ -74,8 +79,8 @@ export class LoginComponent implements OnInit {
         if (response.success) {
           this.userService.setUsername(this.username);
           console.log('Login successful');
-          console.log('username set as' + this.userService.getUsername())
-          this.router.navigate(['/profile']); 
+          console.log('username set as' + this.userService.getUsername());
+          this.router.navigate(['/profile']);
         } else {
           console.log('Login failed');
           this.errorMessage = 'Invalid username or password.';

@@ -148,7 +148,7 @@ LIMIT 15;
 DELIMITER //
 
 CREATE PROCEDURE getUserPerformance(userid VARCHAR(255)) BEGIN
-    SELECT UserID, action, AVG(balance) AS AvgBalance, SUM(CASE WHEN balance > 0 THEN 1 ELSE 0 END) / COUNT(balance) AS WinRate
+    SELECT action, AVG(balance) AS AvgBalance, SUM(CASE WHEN balance > 0 THEN 1 ELSE 0 END) / COUNT(balance) AS WinRate
     FROM 
         (SELECT UserID, balance, action_pre AS action
             FROM GameHistory
@@ -161,7 +161,7 @@ CREATE PROCEDURE getUserPerformance(userid VARCHAR(255)) BEGIN
             UNION ALL
             SELECT UserID,  balance, action_river AS action
             FROM GameHistory) AS T
-    WHERE UserID = @userid
+    WHERE UserID = userid
     GROUP BY action
     ORDER BY WinRate DESC;
 END//
@@ -314,7 +314,7 @@ LIMIT 15;
 DELIMITER //
 
 CREATE PROCEDURE getUserActivity(userid VARCHAR(255)) BEGIN
-    SELECT g.UserID, g.Date, g.GameCount, t.NonGameCount, g.GameCount + t.NonGameCount AS TotalActivity
+    SELECT g.Date, g.GameCount, t.NonGameCount, g.GameCount + t.NonGameCount AS TotalActivity
     FROM (
         SELECT UserID, DATE(DateTime) AS Date, COUNT(*) AS GameCount
         FROM GameHistory
@@ -332,7 +332,7 @@ CREATE PROCEDURE getUserActivity(userid VARCHAR(255)) BEGIN
         ) AS CombinedTransactions
     GROUP BY UserId, Date) AS t
     ON g.UserID = t.UserID AND g.Date = t.Date
-    WHERE UserID = @userid
+    WHERE UserID = userid
     ORDER BY g.Date;
 END//
 ```
