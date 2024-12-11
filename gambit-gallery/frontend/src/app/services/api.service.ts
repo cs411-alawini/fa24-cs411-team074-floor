@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom, Observable } from 'rxjs';
+import { first, firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +46,13 @@ export class ApiService {
       room: room
     }
     return await firstValueFrom(this.http.post(`${this.url}/join-room`, payload));
+  }
+
+  async leaveRoom(uid: string): Promise<any> {
+    const payload = {
+      username: uid
+    }
+    return await firstValueFrom(this.http.post(`${this.url}/leave-room`, payload))
   }
 
   async getBalance(uid: String): Promise<any> {

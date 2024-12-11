@@ -21,6 +21,7 @@ connection = connection.MySQLConnection(
 #     database="gambit_gallery",
 #     # connection_timeout = 10
 # )
+connection.autocommit = True
 cursor = connection.cursor()
 
 # getters
