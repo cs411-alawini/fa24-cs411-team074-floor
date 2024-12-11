@@ -6,81 +6,84 @@ import { firstValueFrom, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://127.0.0.1:5000/api';
+  private url = 'http://127.0.0.1:5000/api';
 
   constructor(private http: HttpClient) {}
 
   getHello(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/hello`);
-  }
-  // Fetch data from the Flask API
-  getData(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/data`);
+    return this.http.get(`${this.url}/hello`);
   }
 
-  getTransaction(user: String): Observable<any> {
-    return this.http.get(`${this.apiUrl}/get-transactions/${user}`);
+  async getTransaction(user: String): Promise<any> {
+    return await firstValueFrom(this.http.get(`${this.url}/get-transactions/${user}`));
   }
 
-  getSkins(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/get-skins`)
+  async getSkins(): Promise<any> {
+    return await firstValueFrom(this.http.get(`${this.url}/get-skins`));
   }
   
-  getRooms(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/get-rooms`)
+  async getRooms(): Promise<any> {
+    return await firstValueFrom(this.http.get(`${this.url}/get-rooms`));
   }
 
-  createRoom(room: String): Observable<any> {
+  async createRoom(room: String): Promise<any> {
     const payload = {
       room: room
     }
-    return this.http.post(`${this.apiUrl}/create-room`, payload)
+    return await firstValueFrom(this.http.post(`${this.url}/create-room`, payload));
   }
 
-  deleteRoom(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/delete-room`)
+  async deleteRoom(room: String): Promise<any> {
+    const payload = {
+      room: room
+    };
+    return await firstValueFrom(this.http.post(`${this.url}/delete-room`, payload));
+  }
+
+  async joinRoom(uid: string, room: string): Promise<any> {
+    const payload = {
+      username: uid,
+      room: room
+    }
+    return await firstValueFrom(this.http.post(`${this.url}/join-room`, payload));
   }
 
   async getBalance(uid: String): Promise<any> {
-    const d = await firstValueFrom<any>(this.http.get<any>(`${this.apiUrl}/get-balance/${uid}`))
-    console.log(d)
+    const d = await firstValueFrom<any>(this.http.get<any>(`${this.url}/get-balance/${uid}`))
+    // console.log(d)
     return d['balance']
   }
   
-  changePassword(uid: String, currPass: String, newPass: String): Observable<any> {
+  async changePassword(uid: String, currPass: String, newPass: String): Promise<any> {
     const payload = {
       username: uid,
       currentPassword: currPass,
       newPassword: newPass,
     };
-    return this.http.post<any>(`${this.apiUrl}/change-password`, payload);
+    return await firstValueFrom(this.http.post<any>(`${this.url}/change-password`, payload));
   }
 
-  deleteAccount(uid: String): Observable<any> {
+  async deleteAccount(uid: String): Promise<any> {
     const payload = { username: uid };
-    return this.http.delete<any>(`${this.apiUrl}/delete-account`)
+    return await firstValueFrom(this.http.post(`${this.url}/delete-account`, payload));
   }
 
-  sendFunds(sender: String, recip: String, amnt: number, note: String): Observable<any> {
+  async sendFunds(sender: String, recip: String, amnt: number, note: String): Promise<any> {
     const payload = {
       username: sender,
       recipientUsername: recip,
       amount: amnt,
       note: note,
     };
-    return this.http.post<any>(`${this.apiUrl}/send-funds`, payload);
+    return await firstValueFrom(this.http.post<any>(`${this.url}/send-funds`, payload));
   }
 
   async getUserPerformance(uid: String): Promise<any> {
-  //   [
-  //     {"date": d, "gameCount": gc, "nonGameCount": ngc, "totalActivity": ta}
-  //     for d, gc, ngc, ta in results
-  // ]
-    return await firstValueFrom(this.http.get(`${this.apiUrl}/get-user-performance/${uid}`))
+    return await firstValueFrom(this.http.get(`${this.url}/get-user-performance/${uid}`))
   }
 
   async getUserActivity(uid: String): Promise<any> {
-    return await firstValueFrom(this.http.get(`${this.apiUrl}/get-user-activity/${uid}`))
+    return await firstValueFrom(this.http.get(`${this.url}/get-user-activity/${uid}`))
   }
 
 }

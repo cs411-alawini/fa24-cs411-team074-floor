@@ -56,8 +56,8 @@ export class ProfileComponent implements OnInit {
   changePassword() {
     this.api
       .changePassword(this.username, this.currentPassword, this.newPassword)
-      .subscribe(
-        (response) => {
+      .then(
+        (_) => {
           this.successMessage = 'Password changed successfully.';
           this.errorMessage = '';
           this.currentPassword = '';
@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
         this.authService.logout(); // Call logout if it's a Gmail address
       }
 
-      this.api.deleteAccount(this.username).subscribe(
+      this.api.deleteAccount(this.username).then(
         (response) => {
           if (response.success) {
             console.log('Account deleted successfully');
@@ -118,11 +118,11 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  async sendFunds() {
+  sendFunds() {
     this.api
       .sendFunds(this.username, this.recipientUsername, this.amount, this.note)
-      .subscribe(
-        async (response) => {
+      .then(
+        async (_) => {
           this.transactionSuccess = true;
           this.transactionError = '';
           this.recipientUsername = '';

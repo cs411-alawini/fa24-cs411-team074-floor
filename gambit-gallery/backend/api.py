@@ -23,66 +23,43 @@ connection = connection.MySQLConnection(
 # )
 cursor = connection.cursor()
 
+# getters
 
-@app.route("/api/hello", methods=["GET"])
+
+@app.get("/api/hello")
 def hello():
     return jsonify({"message": "Hello from Flask!"})
 
 
-@app.route("/api/get-skins")
+@app.get("/api/get-skins")
 def get_skins():
     cursor.execute("select * from Skin;")
-    return jsonify({"result": cursor.fetchall()})
+    return jsonify(
+        [{"SkinID": s, "Image": i, "Description": d} for s, i, d in cursor.fetchall()]
+    )
 
 
-@app.route("/api/get-rooms", methods=["GET"])
+@app.get("/api/get-rooms")
 def get_rooms():
     cursor.execute("select * from Room")
-    return jsonify({"result": cursor.fetchall()})
-
-
-@app.route("/api/create-room", methods=["POST"])
-def create_room():
-    data = request.get_json()
-    room_name = data.get("room")
-    cursor.execute(f"select RoomID from Room where RoomID = '{room_name}';")
-    if cursor.fetchone():
-        return jsonify([{"error" : "Room already exists!"}])
-    
-    cursor.execute(
-        f'insert into Room values ("{room_name}", "../data/tmp/log_{room_name}.txt", "../data/tmp/chatlog_{room_name}.txt") on duplicate key update RoomId = RoomId;'
+    return jsonify(
+        [{"RoomID": r, "Log": l, "ChatLog": cl} for r, l, cl in cursor.fetchall()]
     )
-    return jsonify({"message": "room created successfully"}), 201
 
-@app.route("/api/delete-room", methods=["GET"])
-def delete_room():
-    cursor.execute('delete from Room where RoomId = "test";')
-    return jsonify({"result": cursor.fetchall()})
 
-@app.route("/api/join_room", methods=["POST"])
-def join_room():
-    data = request.get_json()
-    username = data.get("username")
-    room = data.get("room")
-    
-    cursor.execute(
-        f'update Account set RoomID = "{room}" where UserID = "{username}";'
-    )
-    return jsonify({"result": cursor.fetchall()})
-
-@app.route("/api/get-log", methods=["GET"])
+@app.get("/api/get-log")
 def get_log():
     cursor.execute('select ChatLog from Room where RoomId = "test";')
     return jsonify({"result": cursor.fetchall()})
 
 
-@app.route("/api/update-log/<room>/<text>", methods=["GET"])
+@app.get("/api/update-log/<room>/<text>")
 def update_log(room, text):
     cursor.execute(f'update Room set ChatLog = "{text}" where RoomId = "{room}";')
     return jsonify({"result": cursor.fetchall()})
 
 
-@app.route("/api/get-transactions/<user>", methods=["GET"])
+@app.get("/api/get-transactions/<user>")
 def get_transactions(user):
     if not check_username_exists(user):
         return (
@@ -100,12 +77,24 @@ def get_transactions(user):
         )
 
     cursor.execute(
-        f'select * from Transaction where SenderID = "{user}" or ReceiverID = "{user}" limit 15'
+        f'select * from Transaction where SenderID = "{user}" or ReceiverID = "{user}" order by DateTime desc limit 15'
     )
-    data = []
-    for d in cursor.fetchall():
-        transid, sid, rid, amnt, date, descrip = d
-        data.append(
+    # data = []
+    # for d in cursor.fetchall():
+    #     transid, sid, rid, amnt, date, descrip = d
+    #     data.append(
+    #         {
+    #             "from": sid,
+    #             "to": rid,
+    #             "amount": amnt,
+    #             "date": date,
+    #             "description": descrip,
+    #         }
+    #     )
+    # print(f'from: {sid}, to: {rid}, amnt: {amnt}, date: {date}, descrip: {descrip}')
+
+    return jsonify(
+        [
             {
                 "from": sid,
                 "to": rid,
@@ -113,13 +102,141 @@ def get_transactions(user):
                 "date": date,
                 "description": descrip,
             }
-        )
-        # print(f'from: {sid}, to: {rid}, amnt: {amnt}, date: {date}, descrip: {descrip}')
+            for transid, sid, rid, amnt, date, descrip in cursor.fetchall()
+        ]
+    )
 
-    return jsonify(data)
+
+@app.get("/api/get-balance/<username>")
+def get_balance(username):
+    cursor.execute(f'SELECT Balance From Account WHERE UserID = "{username}";')
+    balance = cursor.fetchall()
+    print(username)
+    if balance:
+        # print(balance[0])
+        return jsonify({"balance": balance[0]}), 200
+    else:
+        return jsonify({"error": "Invalid data"}), 400
 
 
-@app.route("/api/login", methods=["POST"])
+@app.get("/api/check-username/<username>")
+def check_username(username):
+    if check_username_exists(username):
+        return jsonify({"profile": username})
+    else:
+        return jsonify({"valid": False}), 404
+
+
+def check_username_exists(username):
+    # Replace with your actual database check
+    cursor.execute(f"SELECT * FROM Account WHERE UserId = '{username}'")
+    profile = cursor.fetchall()
+    if not profile:
+        return False
+    else:
+        return True
+
+
+@app.get("/api/get-user-performance/<username>")
+def get_user_performance(username):
+    # Check if the username exists
+    if not check_username_exists(username):
+        return jsonify({"error": "User not found"}), 404
+
+    # Call the stored procedure with the correct parameter
+    cursor.callproc(f"getUserPerformance", [username])
+
+    # Fetch and process the result
+    results = []
+    for result in cursor.stored_results():
+        results.extend(result)
+
+    # print(results)
+    return jsonify(
+        [
+            {"action": action, "avgBalance": avgBalance, "winrate": winrate}
+            for action, avgBalance, winrate in results
+        ]
+    )
+
+
+@app.get("/api/get-user-activity/<username>")
+def get_user_activity(username):
+    # Check if the username exists
+    if not check_username_exists(username):
+        return jsonify({"error": "User not found"}), 404
+
+    # print("user found")
+    # print("calling database")
+
+    cursor.callproc(f"getUserActivity", [username])
+
+    # Fetch and process the result
+    results = []
+    for result in cursor.stored_results():
+        results.extend(result)
+
+    # print(results)
+    return jsonify(
+        [
+            {"date": d, "gameCount": gc, "nonGameCount": ngc, "totalActivity": ta}
+            for d, gc, ngc, ta in results
+        ]
+    )
+
+
+# POST
+
+
+@app.post("/api/create-room")
+def create_room():
+    data = request.get_json()
+    room_name = data.get("room")
+    cursor.execute(f"select RoomID from Room where RoomID = '{room_name}';")
+    if cursor.fetchone():
+        return jsonify([{"error": "Room already exists!"}])
+
+    cursor.execute(
+        f'insert into Room values ("{room_name}", "../data/tmp/log_{room_name}.txt", "../data/tmp/chatlog_{room_name}.txt") on duplicate key update RoomId = RoomId;'
+    )
+    return jsonify({"message": "room created successfully"}), 201
+
+
+@app.post("/api/delete-room")
+def delete_room():
+    data = request.get_json()
+    room_name = data.get("room")
+    cursor.execute(f"select RoomID from Room where RoomID = '{room_name}';")
+    if cursor.fetchone():
+        return jsonify([{"error": "Room already exists!"}]), 400
+    cursor.execute(f'delete from Room where RoomId = "{room_name}";')
+    return jsonify({"message": "room deleted succesfully"}), 204
+
+
+@app.post("/api/join-room")
+def join_room():
+    data = request.get_json()
+    username = data.get("username")
+    room = data.get("room")
+    
+    try:
+        cursor.execute(f'update Account set RoomID = "{room}" where UserID = "{username}";')
+    except:
+        return jsonify({"error": "could not join room"}), 500
+    return jsonify({"success": "True"})
+
+@app.post("/api/leave-room")
+def leave_room():
+    data = request.get_json()
+    username = data.get("username")
+    try:
+        cursor.execute(f'update Account set RoomID = NULL where UserID = "{username}";')
+    except:
+        return jsonify({"error": "could not leave room"}), 500
+    return jsonify({"message": "left room successfully"})
+
+
+@app.post("/api/login")
 def login():
     # Get the request data (username and password)
     data = request.get_json()
@@ -163,7 +280,7 @@ def login():
         return jsonify({"error": "Invalid username or password."}), 401
 
 
-@app.route("/api/create-account", methods=["POST"])
+@app.post("/api/create-account")
 def create_account():
     VALID_USERNAME_REGEX = r"^[a-zA-Z0-9_.-]+$"  # Alphanumeric + _, ., and -
 
@@ -191,7 +308,7 @@ def create_account():
     return jsonify({"error": "Invalid data"}), 400
 
 
-@app.route("/api/create-account-oauth", methods=["POST"])
+@app.post("/api/create-account-oauth")
 def create_account_oauth():
     data = request.get_json()
     username = data.get("username")
@@ -215,7 +332,7 @@ def create_account_oauth():
     return jsonify({"error": "Invalid data"}), 400
 
 
-@app.route("/api/change-password", methods=["POST"])
+@app.post("/api/change-password")
 def change_password():
     data = request.get_json()
     username = data.get("username")
@@ -227,7 +344,7 @@ def change_password():
 
     # Retrieve the current hashed password from the database for the user
     cursor.execute(f'SELECT Pass FROM Account WHERE UserId = "{username}"')
-    stored_password = cursor.fetchone()["Pass"]
+    stored_password = cursor.fetchone()[0]
 
     if stored_password != current_password:
         return jsonify({"error": "Wrong Password"}), 401
@@ -242,52 +359,7 @@ def change_password():
     return jsonify({"error": "Invalid data"}), 400
 
 
-@app.route("/api/delete-account", methods=["DELETE"])
-def delete_account():
-    data = request.get_json()
-    username = data.get("username")
-
-    if not check_username_exists(username):
-        return jsonify({"error": "User not found"}), 404
-
-    try:
-        cursor.execute(f'DELETE FROM Account WHERE UserId = "{username}";')
-        return jsonify({"success": True}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/api/get-balance/<username>", methods=["GET"])
-def get_balance(username):
-    cursor.execute(f'SELECT Balance From Account WHERE UserID = "{username}";')
-    balance = cursor.fetchall()
-    print(username)
-    if balance:
-        # print(balance[0])
-        return jsonify({"balance": balance[0]}), 200
-    else:
-        return jsonify({"error": "Invalid data"}), 400
-
-
-@app.route("/api/check-username/<username>", methods=["GET"])
-def check_username(username):
-    if check_username_exists(username):
-        return jsonify({"profile": username})
-    else:
-        return jsonify({"valid": False}), 404
-
-
-def check_username_exists(username):
-    # Replace with your actual database check
-    cursor.execute(f"SELECT * FROM Account WHERE UserId = '{username}'")
-    profile = cursor.fetchall()
-    if not profile:
-        return False
-    else:
-        return True
-
-
-@app.route("/api/send-funds", methods=["POST"])
+@app.post("/api/send-funds")
 def send_funds():
     data = request.get_json()
     username = data.get("username")
@@ -327,52 +399,22 @@ def send_funds():
     return jsonify({"error": "Invalid data"}), 400
 
 
-@app.route("/api/get-user-performance/<username>", methods=["GET"])
-def get_user_performance(username):
-    # Check if the username exists
+# DELETE
+
+
+@app.post("/api/delete-account")
+def delete_account():
+    data = request.get_json()
+    username = data.get("username")
+
     if not check_username_exists(username):
         return jsonify({"error": "User not found"}), 404
 
-    # Call the stored procedure with the correct parameter
-    cursor.callproc(f"getUserPerformance", [username])
-
-    # Fetch and process the result
-    results = []
-    for result in cursor.stored_results():
-        results.extend(result)
-
-    # print(results)
-    return jsonify(
-        [
-            {"action": action, "avgBalance": avgBalance, "winrate": winrate}
-            for action, avgBalance, winrate in results
-        ]
-    )
-
-
-@app.route("/api/get-user-activity/<username>", methods=["GET"])
-def get_user_activity(username):
-    # Check if the username exists
-    if not check_username_exists(username):
-        return jsonify({"error": "User not found"}), 404
-
-    # print("user found")
-    # print("calling database")
-
-    cursor.callproc(f"getUserActivity", [username])
-
-    # Fetch and process the result
-    results = []
-    for result in cursor.stored_results():
-        results.extend(result)
-
-    # print(results)
-    return jsonify(
-        [
-            {"date": d, "gameCount": gc, "nonGameCount": ngc, "totalActivity": ta}
-            for d, gc, ngc, ta in results
-        ]
-    )
+    try:
+        cursor.execute(f'DELETE FROM Account WHERE UserId = "{username}";')
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

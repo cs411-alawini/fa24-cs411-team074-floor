@@ -28,12 +28,8 @@ export class TransactionsComponent {
   table_columns: string[] = ['date', 'from', 'to', 'amount', 'description'];
   dataSource = new MatTableDataSource([]);
 
-  ngOnInit() {
-    this.apiService
-      .getTransaction(this.userService.getUsername())
-      .subscribe((data) => {
-        this.dataSource.data = data;
-      });
+  async ngOnInit() {
+    this.dataSource.data = await this.apiService.getTransaction(this.userService.getUsername())
   }
 
   // Method to navigate back
