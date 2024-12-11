@@ -8,7 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-show-rooms',
@@ -18,7 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrl: './show-rooms.component.css'
 })
 export class ShowRoomsComponent implements OnInit{
-  constructor(private apiService: ApiService, private router: Router, private location: Location, private http: HttpClient) {}
+  constructor(private apiService: ApiService, private router: Router, private location: Location, private http: HttpClient, private userService: UserService) {}
 
   table_columns: string[] = ['RoomID', 'Log', 'ChatLog']
   dataSource = new MatTableDataSource([]);
@@ -44,13 +44,13 @@ export class ShowRoomsComponent implements OnInit{
   }
 
   addRoom(): void {
-    this.apiService.createRoom().subscribe(() => {
+    this.apiService.createRoom(this.userService.getUsername()).subscribe(() => {
       this.fetch();
     });
   }
 
   deleteRoom(): void {
-    this.apiService.deleteRoom().subscribe(() => {
+    this.apiService.deleteRoom(this.userService.getUsername()).subscribe(() => {
       this.fetch();
     });
   }

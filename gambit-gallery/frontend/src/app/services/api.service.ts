@@ -30,12 +30,14 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/get_rooms`)
   }
 
-  createRoom(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/create_room`)
+  createRoom(user: String): Observable<any> {
+    var payload = {'username': user}
+    return this.http.post(`${this.apiUrl}/create_room`, payload)
   }
 
-  deleteRoom(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/delete_room`)
+  deleteRoom(user: String): Observable<any> {
+    var payload = {'username': user}
+    return this.http.post(`${this.apiUrl}/delete_room`, payload)
   }
 
   

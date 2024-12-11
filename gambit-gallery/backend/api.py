@@ -3,6 +3,9 @@ from flask_cors import CORS
 from mysql.connector import connection
 from datetime import datetime
 import re
+import string
+import random
+import os
 
 app = Flask(__name__)
 
@@ -37,11 +40,45 @@ def get_rooms():
     return jsonify({"result": cursor.fetchall()})
 
 
-@app.route("/api/create_room", methods=["GET"])
+@app.route("/api/create_room", methods=["POST"])
 def create_room():
+    data = request.get_json()
+    username = data.get('username')
+
+    cursor.execute('SELECT RoomID FROM Room;')
+    ids = list(cursor.fetchall())
+    existing_ids = []
+    for id in ids:
+        existing_ids.append(id[0])
+    print(existing_ids)
+    new_id = ''.join(random.choices(string.ascii_letters + string.digits, k=8))  # Adjust length/charset as needed
+    while new_id in existing_ids:
+        new_id = ''.join(random.choices(string.ascii_letters + string.digits, k=8))  # Adjust length/charset as needed
+
+    log_file_name = '../data/log' + new_id+ '.txt'
+    chatlog_file_name = '../data/chatlog' + new_id + '.txt'
+    content = ''
+    # # CREATE THE LOG FILES AND STORE THEM SOMEWHERE?
+
+    # os.makedirs(os.path.dirname(log_file_name), exist_ok=True)  # Ensure directory exists
+
+    # # Create and write to the file
+    # with open(log_file_name, 'w') as file:
+    #     file.write(content)
+
+    # os.makedirs(os.path.dirname(chatlog_file_name), exist_ok=True)  # Ensure directory exists
+
+    # # Create and write to the file
+    # with open(chatlog_file_name, 'w') as file:
+    #     file.write(content)
+
     cursor.execute(
-        'insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId;'
+        f'INSERT INTO Room Values ("{new_id}", "{log_file_name}", "{chatlog_file_name}");'
     )
+    cursor.execute(
+        f'UPDATE Account SET RoomId = "{new_id}" WHERE UserID = "{username}";'
+    )
+    connection.commit()
     return jsonify({"result": cursor.fetchall()})
 
 
@@ -55,9 +92,14 @@ def join_room():
     return jsonify({"result": cursor.fetchall()})
 
 
-@app.route("/api/delete_room", methods=["GET"])
+@app.route("/api/delete_room", methods=["POST"])
 def delete_room():
-    cursor.execute('delete from Room where RoomId = "test";')
+    data = request.get_json()
+    username = data.get('username')
+    cursor.execute(f'SELECT RoomID FROM Account WHERE UserID = "{username}";')
+    roomid = cursor.fetchone()[0]
+    cursor.execute(f'delete from Room where RoomId = "{roomid}";')
+    connection.commit()
     return jsonify({"result": cursor.fetchall()})
 
 
