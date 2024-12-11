@@ -9,8 +9,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
 connection = connection.MySQLConnection(
-    user="root", database="gambit_gallery", password="root"
-    #user="root", database="gambit_gallery"
+    #user="root", database="gambit_gallery", password="root"
+    user="root", database="gambit_gallery"
 )
 # connection = mysql.connector.connect(
 #     host="34.41.165.201",
@@ -70,6 +70,7 @@ def get_log():
 @app.route("/api/update_log/<room>/<text>", methods=["GET"])
 def update_log(room, text):
     cursor.execute(f'update Room set ChatLog = "{text}" where RoomId = "{room}";')
+    connection.commit()
     return jsonify({"result": cursor.fetchall()})
 
 
@@ -155,6 +156,7 @@ def create_account():
             "VALUES (%s, %s, %s, %s, %s)",
             (username, password, "s1", None, 0),
         )
+        connection.commit()
         # cursor.execute(f'SELECT * FROM Account WHERE UserID = "{username}";')
         # print(cursor.fetchone())
         return jsonify({"message": "Account created successfully"}), 201
@@ -179,6 +181,7 @@ def create_account_oauth():
             "VALUES (%s, %s, %s, %s, %s)",
             (username, password, "s1", None, 0),
         )
+        connection.commit()
         # cursor.execute(f'SELECT * FROM Account WHERE UserID = "{username}";')
         # print(cursor.fetchone())
         return jsonify({"message": "Account created successfully"}), 201
@@ -197,7 +200,7 @@ def change_password():
 
     # Retrieve the current hashed password from the database for the user
     cursor.execute(f'SELECT Pass FROM Account WHERE UserId = "{username}"')
-    stored_password = cursor.fetchone()["Pass"]
+    stored_password = cursor.fetchone()[0]
 
     if stored_password != current_password:
         return jsonify({"error": "Wrong Password"}), 401
@@ -208,6 +211,7 @@ def change_password():
         cursor.execute(
             f'UPDATE Account SET Pass = "{new_password}" WHERE UserId = "{username}";'
         )
+        connection.commit()
         return jsonify({"message": "Account updated successfully"}), 201
     return jsonify({"error": "Invalid data"}), 400
 
@@ -222,6 +226,7 @@ def delete_account():
 
     try:
         cursor.execute(f'DELETE FROM Account WHERE UserId = "{username}";')
+        connection.commit()
         return jsonify({"success": True}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -274,6 +279,8 @@ def send_funds():
     print(recepient)
     if not check_username_exists(recepient):
         return jsonify({'error': 'UserID doesnt exist'}), 409
+    if amount < 0:
+        return jsonify({'error': 'Invalid Amount'}), 403
     
     # Retrieve the current hashed password from the database for the user
     cursor.execute(f'SELECT Balance FROM Account WHERE UserId = "{username}"')
@@ -287,8 +294,9 @@ def send_funds():
         cursor.execute('INSERT INTO Transaction (TransactionID, SenderID, ReceiverID, Amount, DateTime, Description) '
             'VALUES (%s, %s, %s, %s, %s, %s)', 
             (username+recepient+str(now.strftime('%Y-%m-%d %H:%M:%S')), username, recepient, amount, now.strftime('%Y-%m-%d %H:%M:%S'), note))
-        # cursor.execute(f'UPDATE Account SET Balance = "{username_oldbal-amount}" WHERE UserId = "{username}";' )
-        # cursor.execute(f'UPDATE Account SET Balance = "{recepient_oldbal+amount}" WHERE UserId = "{recepient}";' )
+        cursor.execute(f'UPDATE Account SET Balance = "{username_oldbal-amount}" WHERE UserId = "{username}";' )
+        cursor.execute(f'UPDATE Account SET Balance = "{recepient_oldbal+amount}" WHERE UserId = "{recepient}";' )
+        connection.commit()
         return jsonify({'message': 'Account updated successfully'}), 201
     return jsonify({'error': 'Invalid data'}), 400
 

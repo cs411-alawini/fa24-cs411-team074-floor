@@ -165,6 +165,9 @@ export class ProfileComponent implements OnInit {
           case 409:
             this.transactionError = 'That User does not exist.';
             break;
+          case 403:
+            this.transactionError = 'Invalid Amount.'
+            break;
           default: 
             this.transactionError = 'There was an error sending funds. Please try again.';
         }
