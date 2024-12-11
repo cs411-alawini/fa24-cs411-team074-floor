@@ -41,29 +41,34 @@ def get_rooms():
     return jsonify({"result": cursor.fetchall()})
 
 
-@app.route("/api/create-room", methods=["GET"])
+@app.route("/api/create-room", methods=["POST"])
 def create_room():
+    data = request.get_json()
+    room_name = data.get("room")
+    cursor.execute(f"select RoomID from Room where RoomID = '{room_name}';")
+    if cursor.fetchone():
+        return jsonify([{"error" : "Room already exists!"}])
+    
     cursor.execute(
-        'insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId;'
+        f'insert into Room values ("{room_name}", "../data/tmp/log_{room_name}.txt", "../data/tmp/chatlog_{room_name}.txt") on duplicate key update RoomId = RoomId;'
     )
-    return jsonify({"result": cursor.fetchall()})
-
-
-@app.route("/api/join_room", methods=["GET"])
-def join_room():
-    status = ""
-
-    cursor.execute(
-        'insert into Room values ("test", "nah", "ur mom") on duplicate key update RoomId = RoomId;'
-    )
-    return jsonify({"result": cursor.fetchall()})
-
+    return jsonify({"message": "room created successfully"}), 201
 
 @app.route("/api/delete-room", methods=["GET"])
 def delete_room():
     cursor.execute('delete from Room where RoomId = "test";')
     return jsonify({"result": cursor.fetchall()})
 
+@app.route("/api/join_room", methods=["POST"])
+def join_room():
+    data = request.get_json()
+    username = data.get("username")
+    room = data.get("room")
+    
+    cursor.execute(
+        f'update Account set RoomID = "{room}" where UserID = "{username}";'
+    )
+    return jsonify({"result": cursor.fetchall()})
 
 @app.route("/api/get-log", methods=["GET"])
 def get_log():
@@ -144,14 +149,14 @@ def login():
     # cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM Account WHERE UserId = %s", (username,))
     user = cursor.fetchone()
-    t_pass = user[1]
+    t_username, t_pass = user[:2]
 
     if user and t_pass == password:  # Here, replace with hash comparison for production
         return jsonify(
             {
                 "success": True,
                 "message": "Login successful",
-                "user": {"name": user[0], "picture": ""},
+                "user": {"name": t_username, "picture": ""},
             }
         )
     else:
